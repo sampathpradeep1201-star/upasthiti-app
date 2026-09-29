@@ -24,8 +24,6 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 }
 .screen{display:none;flex-direction:column;min-height:100vh;min-height:100dvh}
 .screen.active{display:flex}
-
-/* ── Topbar ── */
 .topbar{background:linear-gradient(135deg,var(--blue-dk),var(--indigo));
   color:#fff;padding:14px 20px;display:flex;align-items:center;gap:12px;
   position:sticky;top:0;z-index:90;box-shadow:0 2px 8px rgba(0,0,0,.15)}
@@ -34,8 +32,6 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 .topbar .back-btn:active{background:rgba(255,255,255,.15)}
 .topbar h1{font-size:17px;font-weight:600;letter-spacing:.3px}
 .topbar .subtitle{font-size:11px;opacity:.75}
-
-/* ── Splash ── */
 .splash{background:linear-gradient(160deg,var(--blue-dk) 0%,var(--indigo) 50%,var(--purple) 100%);
   justify-content:center;align-items:center;text-align:center;color:#fff;padding:40px 24px}
 .splash .logo-ring{width:120px;height:120px;border:3px solid rgba(255,255,255,.3);
@@ -52,8 +48,6 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
   border-radius:50px;font-size:17px;font-weight:600;cursor:pointer;
   box-shadow:0 4px 20px rgba(0,0,0,.2);margin-top:32px;transition:transform .15s}
 .start-btn:active{transform:scale(.96)}
-
-/* ── Form ── */
 .form-body{flex:1;padding:20px;overflow-y:auto;padding-bottom:100px}
 .form-card{background:var(--white);border-radius:var(--radius);padding:20px;
   box-shadow:var(--shadow);margin-bottom:16px}
@@ -67,11 +61,7 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
   font-family:inherit;-webkit-appearance:none;appearance:none;transition:border-color .2s}
 .field input:focus,.field select:focus{outline:none;border-color:var(--blue);
   box-shadow:0 0 0 3px rgba(21,101,192,.12)}
-.field select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235C6370' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
-  background-repeat:no-repeat;background-position:right 14px center;padding-right:36px}
 .field .hint{font-size:11px;color:var(--sub);margin-top:3px}
-
-/* ── Bottom bar ── */
 .bottom-bar{position:fixed;bottom:0;left:0;right:0;padding:12px 20px;
   padding-bottom:max(12px,env(safe-area-inset-bottom));
   background:var(--white);border-top:1px solid var(--border);
@@ -85,14 +75,10 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 .btn-secondary{width:100%;padding:14px;border:2px solid var(--blue);border-radius:12px;
   font-size:15px;font-weight:600;cursor:pointer;background:transparent;
   color:var(--blue);margin-top:8px}
-
-/* ── Capture screen ── */
 .capture-body{flex:1;display:flex;flex-direction:column;background:#000}
-
-/* ── Preview area: shows last captured photo or camera hint ── */
 .preview-area{flex:1;position:relative;display:flex;align-items:center;
   justify-content:center;overflow:hidden;background:#111;min-height:200px}
-.preview-area img#lastPhoto{width:100%;height:100%;object-fit:cover;display:none}
+.preview-area img{width:100%;height:100%;object-fit:cover;display:none}
 .preview-hint{display:flex;flex-direction:column;align-items:center;
   justify-content:center;color:rgba(255,255,255,.5);gap:12px;padding:20px;text-align:center}
 .preview-hint .big-icon{font-size:56px;line-height:1}
@@ -100,57 +86,44 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 .preview-hint small{font-size:12px;opacity:.7}
 .preview-overlay{position:absolute;top:10px;left:10px;right:10px;
   display:flex;justify-content:space-between;align-items:flex-start;z-index:10;pointer-events:none}
-.zone-badge{background:rgba(0,0,0,.6);color:#fff;padding:6px 16px;
-  border-radius:20px;font-size:14px;font-weight:600;backdrop-filter:blur(6px)}
-.captured-count{color:#fff;padding:6px 14px;
-  border-radius:20px;font-size:13px;font-weight:500;backdrop-filter:blur(6px)}
+.zone-badge,.student-id-bar{padding:6px 16px;border-radius:20px;font-size:14px;
+  font-weight:600;backdrop-filter:blur(6px);color:#fff}
+.zone-badge{background:rgba(0,0,0,.6)}
+.student-id-bar{background:rgba(106,27,154,.85)}
+.captured-count{color:#fff;padding:6px 14px;border-radius:20px;font-size:13px;
+  font-weight:500;backdrop-filter:blur(6px)}
 .captured-count.ok{background:rgba(46,125,50,.8)}
 .captured-count.warn{background:rgba(255,143,0,.85)}
 .captured-label{position:absolute;bottom:0;left:0;right:0;
   background:linear-gradient(transparent,rgba(0,0,0,.65));
   color:#fff;font-size:13px;padding:14px 12px 8px;text-align:center}
-
 .capture-controls{background:#111;padding:14px 16px;
   padding-bottom:max(14px,env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:10px}
-
-/* Zone selector — scrolls horizontally, 8 zones fit fine */
-.zone-selector{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;
+.zone-selector,.pose-selector{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;
   scrollbar-width:none;-ms-overflow-style:none}
-.zone-selector::-webkit-scrollbar{display:none}
-.zone-btn{flex-shrink:0;padding:8px 14px;border-radius:20px;font-size:13px;font-weight:500;
+.zone-selector::-webkit-scrollbar,.pose-selector::-webkit-scrollbar{display:none}
+.zone-btn,.pose-btn{flex-shrink:0;padding:8px 14px;border-radius:20px;font-size:13px;font-weight:500;
   cursor:pointer;border:1.5px solid rgba(255,255,255,.3);background:rgba(255,255,255,.08);
   color:rgba(255,255,255,.8);transition:all .2s;white-space:nowrap}
-.zone-btn.active{background:var(--blue);border-color:var(--blue);color:#fff}
-.zone-btn.captured{background:var(--green);border-color:var(--green);color:#fff}
-.zone-btn.captured.active{box-shadow:0 0 0 2px #fff}
-
-/* The camera row: big TAKE PHOTO button + switch camera */
+.zone-btn.active,.pose-btn.active{background:var(--blue);border-color:var(--blue);color:#fff}
+.pose-btn.active{background:var(--purple);border-color:var(--purple)}
+.zone-btn.captured,.pose-btn.captured{background:var(--green);border-color:var(--green);color:#fff}
+.zone-btn.captured.active,.pose-btn.captured.active{box-shadow:0 0 0 2px #fff}
+.pose-btn .req-dot{display:inline-block;width:6px;height:6px;border-radius:50%;
+  background:var(--red);margin-left:4px;vertical-align:middle}
 .capture-row{display:flex;align-items:center;justify-content:center;gap:16px}
-
-/* ── THE KEY FIX: wrap a file input over the shutter button ──
-   We make a real <label> containing the shutter circle.
-   The hidden <input type="file" capture="environment"> sits inside.
-   Tapping the label triggers the OS camera immediately — 
-   no getUserMedia, no permission prompts, works on HTTP. ── */
 .shutter-label{position:relative;display:flex;align-items:center;justify-content:center;
   width:72px;height:72px;cursor:pointer}
 .shutter-label input[type="file"]{position:absolute;inset:0;opacity:0;
   width:100%;height:100%;cursor:pointer;z-index:10;font-size:0}
 .shutter-ring{width:72px;height:72px;border-radius:50%;border:4px solid #fff;
-  background:transparent;display:flex;align-items:center;justify-content:center;
-  pointer-events:none;transition:transform .1s}
-.shutter-ring::after{content:'';width:54px;height:54px;border-radius:50%;background:#fff;
-  display:block;transition:transform .15s}
+  background:transparent;display:flex;align-items:center;justify-content:center;pointer-events:none}
+.shutter-ring::after{content:'';width:54px;height:54px;border-radius:50%;background:#fff;display:block}
 .shutter-label:active .shutter-ring{transform:scale(.9)}
-.shutter-label:active .shutter-ring::after{transform:scale(.85)}
-
 .cam-action-btn{flex-shrink:0;width:48px;height:48px;border-radius:50%;
   border:none;background:rgba(255,255,255,.15);color:#fff;font-size:20px;
-  cursor:pointer;display:flex;align-items:center;justify-content:center;
-  transition:background .15s}
+  cursor:pointer;display:flex;align-items:center;justify-content:center}
 .cam-action-btn:active{background:rgba(255,255,255,.3)}
-
-/* Review screen */
 .review-body{flex:1;padding:20px;overflow-y:auto;padding-bottom:100px}
 .session-summary{background:var(--white);border-radius:var(--radius);padding:16px;
   box-shadow:var(--shadow);margin-bottom:16px}
@@ -158,24 +131,24 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 .session-info{display:grid;grid-template-columns:1fr 1fr;gap:6px}
 .session-info .item{font-size:13px;color:var(--sub)}
 .session-info .item span{color:var(--text);font-weight:500}
-.zone-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
-.zone-card{background:var(--white);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow)}
-.zone-card img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block}
-.zone-card .zone-lbl{padding:8px 12px;font-size:13px;font-weight:600;
+.zone-grid,.enroll-photo-strip{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.zone-card,.enroll-photo-card{background:var(--white);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow)}
+.zone-card img,.enroll-photo-card img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block}
+.enroll-photo-card img{aspect-ratio:3/4}
+.zone-card .zone-lbl,.enroll-photo-card .pose-lbl{padding:8px 12px;font-size:13px;font-weight:600;
   display:flex;justify-content:space-between;align-items:center}
-.zone-card .zone-lbl .chk{color:var(--green);font-size:16px}
+.zone-card .zone-lbl .chk,.enroll-photo-card .pose-lbl .chk{color:var(--green);font-size:16px}
 .missing-card{background:var(--white);border-radius:var(--radius);padding:20px;
   text-align:center;box-shadow:var(--shadow);border:2px dashed var(--border)}
 .missing-card .icon{font-size:28px;margin-bottom:4px;opacity:.4}
 .missing-card p{font-size:12px;color:var(--sub)}
-
-/* Saved screen */
 .saved-body{flex:1;display:flex;flex-direction:column;align-items:center;
   justify-content:center;padding:40px 24px;text-align:center}
 .check-circle{width:80px;height:80px;border-radius:50%;
   background:linear-gradient(135deg,var(--green),var(--teal));color:#fff;
   font-size:40px;display:flex;align-items:center;justify-content:center;
   margin-bottom:24px;box-shadow:0 4px 20px rgba(46,125,50,.3)}
+.check-circle.queued{background:linear-gradient(135deg,var(--blue),var(--indigo))}
 .saved-body h2{font-size:22px;margin-bottom:8px}
 .saved-body .detail{font-size:14px;color:var(--sub);line-height:1.6;margin-bottom:8px}
 .saved-body .path{font-size:12px;color:var(--teal);background:var(--blue-lt);
@@ -188,186 +161,104 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 .purge-warning .purge-icon{font-size:32px;flex-shrink:0}
 .purge-warning .purge-text{font-size:13px;color:#BF360C;line-height:1.5}
 .purge-warning .purge-text strong{color:#D84315}
-.purge-warning .purge-text small{opacity:.75}
-
-/* Toast */
 .toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(100px);
   background:var(--text);color:#fff;padding:10px 20px;border-radius:24px;
   font-size:13px;font-weight:500;z-index:200;opacity:0;transition:all .3s ease;
   white-space:nowrap;box-shadow:0 4px 16px rgba(0,0,0,.2)}
 .toast.show{transform:translateX(-50%) translateY(0);opacity:1}
-
-/* Mode toggle */
-.mode-toggle{display:flex;border-radius:10px;overflow:hidden;border:1.5px solid var(--border);margin-bottom:14px}
-.mode-toggle button{flex:1;padding:12px;border:none;background:var(--bg);
+.mode-toggle,.session-toggle{display:flex;border-radius:10px;overflow:hidden;border:1.5px solid var(--border);margin-bottom:14px}
+.mode-toggle button,.session-toggle button{flex:1;padding:12px;border:none;background:var(--bg);
   font-size:13px;font-weight:500;cursor:pointer;color:var(--sub);transition:all .2s}
 .mode-toggle button.active{background:var(--blue);color:#fff;font-weight:600}
-.server-fields{display:none;margin-top:14px;padding-top:14px;border-top:1px solid var(--border)}
-.server-fields.show{display:block}
-.mode-note{font-size:11px;padding:8px 12px;border-radius:8px;margin-top:8px;line-height:1.5}
+.session-toggle button.active{background:var(--indigo);color:#fff;font-weight:600}
+.server-fields,.enroll-fields{display:none;margin-top:14px;padding-top:14px;border-top:1px solid var(--border)}
+.server-fields.show,.enroll-fields.show{display:block}
+.attendance-fields.hide{display:none}
+.mode-note,.session-note{font-size:11px;padding:8px 12px;border-radius:8px;margin-top:8px;line-height:1.5}
 .mode-note.trial{background:#FFF8E1;color:#E65100}
 .mode-note.server{background:#E8F5E9;color:#2E7D32}
-.btn-send{background:linear-gradient(135deg,var(--green),var(--teal));
-  box-shadow:0 4px 14px rgba(46,125,50,.3)}
-.send-progress{width:100%;height:6px;background:var(--border);border-radius:3px;
-  margin-top:10px;overflow:hidden;display:none}
+.session-note.attendance{background:#E3F2FD;color:#0D47A1}
+.session-note.enrollment{background:#F3E5F5;color:#6A1B9A}
+.btn-send{background:linear-gradient(135deg,var(--green),var(--teal));box-shadow:0 4px 14px rgba(46,125,50,.3)}
+.send-progress{width:100%;height:6px;background:var(--border);border-radius:3px;margin-top:10px;overflow:hidden;display:none}
 .send-progress.show{display:block}
-.send-progress .bar{height:100%;background:var(--green);border-radius:3px;
-  transition:width .3s ease;width:0%}
-.check-circle.queued{background:linear-gradient(135deg,var(--blue),var(--indigo))}
-
-/* Spinner */
+.send-progress .bar{height:100%;background:var(--green);border-radius:3px;transition:width .3s ease;width:0%}
 .spinner{width:18px;height:18px;border:2px solid rgba(255,255,255,.3);
   border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite;
   display:inline-block;vertical-align:middle;margin-right:6px}
 @keyframes spin{to{transform:rotate(360deg)}}
-
-/* ── Session Type toggle (Attendance / Enrollment) ── */
-.session-toggle{display:flex;border-radius:10px;overflow:hidden;
-  border:1.5px solid var(--border);margin-bottom:14px}
-.session-toggle button{flex:1;padding:12px;border:none;background:var(--bg);
-  font-size:13px;font-weight:500;cursor:pointer;color:var(--sub);transition:all .2s}
-.session-toggle button.active{background:var(--indigo);color:#fff;font-weight:600}
-.session-note{font-size:11px;padding:8px 12px;border-radius:8px;margin-top:8px;line-height:1.5}
-.session-note.attendance{background:#E3F2FD;color:#0D47A1}
-.session-note.enrollment{background:#F3E5F5;color:#6A1B9A}
-
-/* ── Enrollment fields ── */
-.enroll-fields{display:none;margin-top:14px;padding-top:14px;border-top:1px solid var(--border)}
-.enroll-fields.show{display:block}
-.attendance-fields{display:block}
-.attendance-fields.hide{display:none}
-
-/* ── Enrollment capture: pose cards ── */
-.pose-selector{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;
-  scrollbar-width:none;-ms-overflow-style:none}
-.pose-selector::-webkit-scrollbar{display:none}
-.pose-btn{flex-shrink:0;padding:8px 14px;border-radius:20px;font-size:13px;font-weight:500;
-  cursor:pointer;border:1.5px solid rgba(255,255,255,.3);background:rgba(255,255,255,.08);
-  color:rgba(255,255,255,.8);transition:all .2s;white-space:nowrap}
-.pose-btn.active{background:var(--purple);border-color:var(--purple);color:#fff}
-.pose-btn.captured{background:var(--green);border-color:var(--green);color:#fff}
-.pose-btn.captured.active{box-shadow:0 0 0 2px #fff}
-.pose-btn .req-dot{display:inline-block;width:6px;height:6px;border-radius:50%;
-  background:var(--red);margin-left:4px;vertical-align:middle}
-
-/* ── Enrollment review: photo strip ── */
-.enroll-photo-strip{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
-.enroll-photo-card{background:var(--white);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow)}
-.enroll-photo-card img{width:100%;aspect-ratio:3/4;object-fit:cover;display:block}
-.enroll-photo-card .pose-lbl{padding:8px 12px;font-size:12px;font-weight:600;
-  display:flex;justify-content:space-between;align-items:center}
-.enroll-photo-card .pose-lbl .chk{color:var(--green);font-size:16px}
-
-/* Student ID display in capture */
-.student-id-bar{background:rgba(106,27,154,.85);color:#fff;padding:6px 16px;
-  border-radius:20px;font-size:13px;font-weight:600;backdrop-filter:blur(6px)}
 </style>
 </head>
 <body>
 
-<!-- ═══ SPLASH ═══ -->
+<!-- SPLASH -->
 <div id="splash" class="screen splash active">
-  <div class="logo-ring">
-    <div class="logo-inner">📸</div>
-  </div>
+  <div class="logo-ring"><div class="logo-inner">📸</div></div>
   <h1>UPASTHITI CHITRA</h1>
-  <div class="tagline">Photo-Based Attendance Capture</div>
+  <div class="tagline">Photo-Based Attendance & Enrollment</div>
   <div class="sanskrit">उपस्थिति चित्र — SAMJNA Project</div>
   <button class="start-btn" onclick="showScreen('setup')">Begin Session</button>
   <div class="version-badge" id="versionBadge">v3.0</div>
 </div>
 
-<!-- ═══ SETUP ═══ -->
+<!-- SETUP -->
 <div id="setup" class="screen">
   <div class="topbar">
     <button class="back-btn" onclick="showScreen('splash')">‹</button>
     <div><h1>Session Setup</h1><div class="subtitle">Enter class details</div></div>
   </div>
   <div class="form-body">
-    <!-- Session Type: Attendance or Enrollment -->
     <div class="form-card">
       <h2><span class="icon">📋</span> Session Type</h2>
       <div class="session-toggle">
         <button id="typeAttBtn" class="active" onclick="setSessionType('attendance')">📸 Attendance</button>
         <button id="typeEnrollBtn" onclick="setSessionType('enrollment')">🎓 Enrollment</button>
       </div>
-      <div class="session-note attendance" id="noteAttendance">
-        Capture zone photos of the classroom for attendance marking.
-      </div>
-      <div class="session-note enrollment" id="noteEnrollment" style="display:none">
-        Capture 2–4 photos per student for face enrollment.
-      </div>
+      <div class="session-note attendance" id="noteAttendance">Capture zone photos of the classroom for attendance marking.</div>
+      <div class="session-note enrollment" id="noteEnrollment" style="display:none">Capture 2–4 photos per student for face enrollment.</div>
     </div>
-
     <div class="form-card">
       <h2><span class="icon">📡</span> Connection Mode</h2>
       <div class="mode-toggle">
         <button id="modeTrialBtn" class="active" onclick="setMode('trial')">📱 Save to Phone</button>
         <button id="modeServerBtn" onclick="setMode('server')">🖥 Send to Server</button>
       </div>
-      <div class="mode-note trial" id="modeNoteTrial">
-        Photos save to Downloads. Transfer manually for processing.
-      </div>
-      <div class="mode-note server" id="modeNoteServer" style="display:none">
-        Photos sent to college server. Attendance generated automatically.
-      </div>
+      <div class="mode-note trial" id="modeNoteTrial">Photos save to Downloads. Transfer manually for processing.</div>
+      <div class="mode-note server" id="modeNoteServer" style="display:none">Photos sent to college server. Processed automatically.</div>
       <div class="server-fields" id="serverFields">
-        <div class="field">
-          <label>College Server Address</label>
+        <div class="field"><label>College Server Address</label>
           <input type="text" id="f_server" placeholder="e.g. 192.168.1.100:8080" autocomplete="off">
-          <div class="hint">Ask IT coordinator for this address</div>
-        </div>
+          <div class="hint">Ask IT coordinator for this address</div></div>
       </div>
     </div>
     <div class="form-card">
       <h2><span class="icon">🏫</span> Institution</h2>
-      <div class="field">
-        <label>College Code</label>
-        <input type="text" id="f_college" placeholder="e.g. 3106" autocomplete="off" inputmode="numeric">
-      </div>
-      <div class="field">
-        <label>Batch / Year</label>
+      <div class="field"><label>College Code</label>
+        <input type="text" id="f_college" placeholder="e.g. 3106" autocomplete="off" inputmode="numeric"></div>
+      <div class="field"><label>Batch / Year</label>
         <input type="text" id="f_year" placeholder="e.g. 2024 or B45" autocomplete="off" maxlength="6" style="text-transform:uppercase">
-        <div class="hint">Year of starting (2024) or batch number (B45)</div>
-      </div>
+        <div class="hint">Year of starting (2024) or batch number (B45)</div></div>
     </div>
     <div class="form-card">
       <h2><span class="icon">📚</span> Class Details</h2>
-      <div class="field">
-        <label>Branch Code</label>
-        <input type="text" id="f_branch" placeholder="e.g. ME, CSE, ECE" autocomplete="off" style="text-transform:uppercase">
-      </div>
-      <div class="field">
-        <label>Section</label>
-        <input type="text" id="f_section" placeholder="e.g. A, B" autocomplete="off" maxlength="2" style="text-transform:uppercase">
-      </div>
-      <!-- Subject code: shown for attendance, hidden for enrollment -->
+      <div class="field"><label>Branch Code</label>
+        <input type="text" id="f_branch" placeholder="e.g. ME, CSE, ECE" autocomplete="off" style="text-transform:uppercase"></div>
+      <div class="field"><label>Section</label>
+        <input type="text" id="f_section" placeholder="e.g. A, B" autocomplete="off" maxlength="2" style="text-transform:uppercase"></div>
       <div class="attendance-fields" id="subjectFields">
-        <div class="field">
-          <label>Subject Code</label>
-          <input type="text" id="f_subject" placeholder="e.g. TH301" autocomplete="off" style="text-transform:uppercase">
-        </div>
+        <div class="field"><label>Subject Code</label>
+          <input type="text" id="f_subject" placeholder="e.g. TH301" autocomplete="off" style="text-transform:uppercase"></div>
       </div>
     </div>
-
-    <!-- Enrollment-only: Student ID -->
     <div class="form-card enroll-fields" id="enrollFields">
       <h2><span class="icon">🎓</span> Student Enrollment</h2>
-      <div class="field">
-        <label>Student ID / Roll Number</label>
+      <div class="field"><label>Student ID / Roll Number</label>
         <input type="text" id="f_student_id" placeholder="e.g. 32212" autocomplete="off" inputmode="numeric">
-        <div class="hint">Enter the student's unique ID or roll number</div>
-      </div>
+        <div class="hint">Enter the student's unique ID or roll number</div></div>
     </div>
-
     <div class="form-card">
       <h2><span class="icon">📅</span> Date</h2>
-      <div class="field">
-        <label>Attendance Date</label>
-        <input type="date" id="f_date">
-        <div class="hint">Defaults to today</div>
-      </div>
+      <div class="field"><label>Date</label><input type="date" id="f_date"><div class="hint">Defaults to today</div></div>
     </div>
   </div>
   <div class="bottom-bar">
@@ -375,13 +266,11 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
   </div>
 </div>
 
-<!-- ═══ CAPTURE (Attendance — Zone Photos) ═══ -->
+<!-- CAPTURE ATTENDANCE -->
 <div id="capture" class="screen">
   <div class="capture-body">
-
-    <!-- Preview area: shows thumbnail of last captured zone photo -->
     <div class="preview-area" id="previewArea">
-      <img id="lastPhoto" alt="Last captured zone photo">
+      <img id="lastPhoto" alt="Last captured">
       <div class="preview-hint" id="previewHint">
         <div class="big-icon">📷</div>
         <p>Tap the <strong>white circle</strong> below<br>to open camera and capture this zone</p>
@@ -391,136 +280,83 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
         <div class="zone-badge" id="zoneBadge">Zone: Left</div>
         <div class="captured-count warn" id="capturedCount">0 captured</div>
       </div>
-      <div class="captured-label" id="capturedLabel">Position phone to capture the LEFT zone of the classroom</div>
+      <div class="captured-label" id="capturedLabel">Position phone to capture the LEFT zone</div>
     </div>
-
-    <!-- Zone tabs — scrollable, supports 8 zones comfortably -->
     <div class="capture-controls">
       <div class="zone-selector" id="zoneSelector"></div>
-
       <div class="capture-row">
-        <!-- Gallery button: pick existing photo -->
-        <button class="cam-action-btn" onclick="openGallery()" title="Choose from gallery">🖼</button>
-
-        <!-- ── SHUTTER: label wrapping hidden file input ──
-             capture="environment" directly opens the rear camera
-             on Android. No getUserMedia. No permissions dialog needed. -->
-        <label class="shutter-label" id="shutterLabel">
-          <input type="file"
-                 id="cameraInput"
-                 accept="image/*"
-                 capture="environment"
-                 onchange="handleCameraPhoto(event)">
-          <div class="shutter-ring"></div>
-        </label>
-
-        <!-- Switch front/rear camera -->
-        <button class="cam-action-btn" id="switchBtn" onclick="toggleCameraFace()" title="Switch camera">🔄</button>
+        <button class="cam-action-btn" onclick="openGallery()" title="Gallery">🖼</button>
+        <label class="shutter-label"><input type="file" id="cameraInput" accept="image/*" capture="environment" onchange="handleCameraPhoto(event)"><div class="shutter-ring"></div></label>
+        <button class="cam-action-btn" onclick="toggleCameraFace()" title="Switch camera">🔄</button>
       </div>
-
-      <!-- Instructional note -->
-      <div style="text-align:center;font-size:11px;color:rgba(255,255,255,.45);margin-top:2px">
-        Tap ⬤ to capture • Tap zone name to select • Scroll zones for more
-      </div>
+      <div style="text-align:center;font-size:11px;color:rgba(255,255,255,.45);margin-top:2px">Tap ⬤ to capture • Tap zone name to select • Scroll for more</div>
     </div>
   </div>
-
-  <!-- Hidden gallery input (no capture= attribute, opens gallery only) -->
   <input type="file" id="galleryInput" accept="image/*" style="display:none" onchange="handleGalleryPhoto(event)">
 </div>
 
-<!-- ═══ CAPTURE ENROLLMENT (Pose Photos) ═══ -->
+<!-- CAPTURE ENROLLMENT -->
 <div id="enrollCapture" class="screen">
   <div class="capture-body">
-
     <div class="preview-area" id="enrollPreviewArea">
-      <img id="enrollLastPhoto" alt="Last captured enrollment photo">
+      <img id="enrollLastPhoto" alt="Last captured">
       <div class="preview-hint" id="enrollPreviewHint">
         <div class="big-icon">🎓</div>
         <p>Capture the student's face<br>following the <strong>pose instructions</strong> below</p>
-        <small>Front camera recommended for self-enrollment</small>
+        <small>Front camera recommended</small>
       </div>
       <div class="preview-overlay">
-        <div class="student-id-bar" id="enrollStudentBadge">Student: 32212</div>
+        <div class="student-id-bar" id="enrollStudentBadge">Student: —</div>
         <div class="captured-count warn" id="enrollCapturedCount">0 / 2</div>
       </div>
       <div class="captured-label" id="enrollPoseLabel">Photo 1: Eyes open, looking straight at camera</div>
     </div>
-
     <div class="capture-controls">
       <div class="pose-selector" id="poseSelector"></div>
-
       <div class="capture-row">
-        <button class="cam-action-btn" onclick="openEnrollGallery()" title="Choose from gallery">🖼</button>
-
-        <label class="shutter-label" id="enrollShutterLabel">
-          <input type="file"
-                 id="enrollCameraInput"
-                 accept="image/*"
-                 capture="user"
-                 onchange="handleEnrollPhoto(event)">
-          <div class="shutter-ring"></div>
-        </label>
-
-        <button class="cam-action-btn" id="enrollSwitchBtn" onclick="toggleEnrollCameraFace()" title="Switch camera">🔄</button>
+        <button class="cam-action-btn" onclick="openEnrollGallery()" title="Gallery">🖼</button>
+        <label class="shutter-label"><input type="file" id="enrollCameraInput" accept="image/*" capture="user" onchange="handleEnrollPhoto(event)"><div class="shutter-ring"></div></label>
+        <button class="cam-action-btn" onclick="toggleEnrollCameraFace()" title="Switch camera">🔄</button>
       </div>
-
-      <div style="text-align:center;font-size:11px;color:rgba(255,255,255,.45);margin-top:2px">
-        Tap ⬤ to capture • Tap pose to select • 2 mandatory + 2 optional
-      </div>
+      <div style="text-align:center;font-size:11px;color:rgba(255,255,255,.45);margin-top:2px">2 mandatory + 2 optional poses</div>
     </div>
   </div>
-
   <input type="file" id="enrollGalleryInput" accept="image/*" style="display:none" onchange="handleEnrollGalleryPhoto(event)">
 </div>
 
-<!-- ═══ REVIEW (Attendance) ═══ -->
+<!-- REVIEW ATTENDANCE -->
 <div id="review" class="screen">
-  <div class="topbar">
-    <button class="back-btn" onclick="goBackToCapture()">‹</button>
-    <div><h1>Review &amp; Send</h1><div class="subtitle">Verify zone photos</div></div>
-  </div>
+  <div class="topbar"><button class="back-btn" onclick="goBackToCapture()">‹</button><div><h1>Review & Send</h1><div class="subtitle">Verify zone photos</div></div></div>
   <div class="review-body">
-    <div class="session-summary">
-      <h3>📋 Session Details</h3>
-      <div class="session-info" id="sessionInfo"></div>
-    </div>
+    <div class="session-summary"><h3>📋 Session Details</h3><div class="session-info" id="sessionInfo"></div></div>
     <div id="zoneGrid" class="zone-grid"></div>
   </div>
   <div class="bottom-bar">
-    <button class="btn-primary" id="saveBtn" onclick="savePhotos()" style="display:none">💾 Save Photos to Device</button>
-    <button class="btn-primary btn-send" id="sendBtn" onclick="sendToServer()" style="display:none">📡 Send to College Server</button>
+    <button class="btn-primary" id="saveBtn" onclick="savePhotos()" style="display:none">💾 Save to Device</button>
+    <button class="btn-primary btn-send" id="sendBtn" onclick="sendToServer()" style="display:none">📡 Send to Server</button>
     <div class="send-progress" id="sendProgress"><div class="bar" id="sendBar"></div></div>
     <button class="btn-secondary" onclick="goBackToCapture()">← Retake Photos</button>
   </div>
 </div>
 
-<!-- ═══ REVIEW (Enrollment) ═══ -->
+<!-- REVIEW ENROLLMENT -->
 <div id="enrollReview" class="screen">
-  <div class="topbar">
-    <button class="back-btn" onclick="goBackToEnrollCapture()">‹</button>
-    <div><h1>Review Enrollment</h1><div class="subtitle" id="enrollReviewSub">Student photos</div></div>
-  </div>
+  <div class="topbar"><button class="back-btn" onclick="goBackToEnrollCapture()">‹</button><div><h1>Review Enrollment</h1><div class="subtitle" id="enrollReviewSub">Student photos</div></div></div>
   <div class="review-body">
-    <div class="session-summary">
-      <h3>🎓 Enrollment Details</h3>
-      <div class="session-info" id="enrollSessionInfo"></div>
-    </div>
+    <div class="session-summary"><h3>🎓 Enrollment Details</h3><div class="session-info" id="enrollSessionInfo"></div></div>
     <div id="enrollPhotoGrid" class="enroll-photo-strip"></div>
   </div>
   <div class="bottom-bar">
-    <button class="btn-primary" id="enrollSaveBtn" onclick="saveEnrollPhotos()" style="display:none">💾 Save Photos to Device</button>
-    <button class="btn-primary btn-send" id="enrollSendBtn" onclick="sendEnrollToServer()" style="display:none">📡 Send to College Server</button>
+    <button class="btn-primary" id="enrollSaveBtn" onclick="saveEnrollPhotos()" style="display:none">💾 Save to Device</button>
+    <button class="btn-primary btn-send" id="enrollSendBtn" onclick="sendEnrollToServer()" style="display:none">📡 Send to Server</button>
     <div class="send-progress" id="enrollSendProgress"><div class="bar" id="enrollSendBar"></div></div>
     <button class="btn-secondary" onclick="goBackToEnrollCapture()">← Retake Photos</button>
   </div>
 </div>
 
-<!-- ═══ DONE ═══ -->
+<!-- DONE -->
 <div id="saved" class="screen">
-  <div class="topbar">
-    <div style="flex:1"><h1>UPASTHITI CHITRA</h1><div class="subtitle">Session Complete</div></div>
-  </div>
+  <div class="topbar"><div style="flex:1"><h1>UPASTHITI CHITRA</h1><div class="subtitle">Session Complete</div></div></div>
   <div class="saved-body">
     <div class="check-circle" id="doneIcon">✓</div>
     <h2 id="doneTitle">Photos Saved</h2>
@@ -529,12 +365,7 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
     <div class="detail" id="doneSub"></div>
     <div class="purge-warning" id="purgeWarning" style="display:none">
       <div class="purge-icon">🗑️</div>
-      <div class="purge-text">
-        <strong>DPDP Privacy Compliance</strong><br>
-        Please delete the zone photos from your phone's<br>
-        <strong>Gallery / Camera Roll</strong> now.<br>
-        <small>Photos must not remain on personal devices.</small>
-      </div>
+      <div class="purge-text"><strong>DPDP Privacy Compliance</strong><br>Please delete the photos from your phone's <strong>Gallery / Camera Roll</strong> now.<br><small>Photos must not remain on personal devices.</small></div>
     </div>
     <button class="btn-new" id="doneNewBtn" onclick="newSession()">📸 New Session</button>
     <button class="btn-new" id="doneNextStudentBtn" onclick="nextStudent()" style="display:none;margin-top:8px">🎓 Next Student</button>
@@ -544,720 +375,285 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 <div class="toast" id="toast"></div>
 
 <script>
-/* ═══════════════════════════════════════════════════════════
-   UPASTHITI CHITRA — Mobile Capture App  v3.0
-   • Attendance mode: zone photo capture (8 zones)
-   • Enrollment mode: 2–4 pose photos per student
-   • Trial mode: save to phone Downloads
-   • Server mode: auto-send to college server + session_complete
-   • Folder structure: date/year/branch_section/subject_code
-   ═══════════════════════════════════════════════════════════ */
-
-// ── 8 Zones (Attendance) ──────────────────────────────────
-const ZONES = [
-  { id:'left',      label:'Left',      req:true,  msg:'Capture the LEFT zone of the classroom' },
-  { id:'centre',    label:'Centre',    req:true,  msg:'Capture the CENTRE zone — aim at the middle rows' },
-  { id:'right',     label:'Right',     req:true,  msg:'Capture the RIGHT zone of the classroom' },
-  { id:'backleft',  label:'Back-L',    req:false, msg:'Optional: BACK-LEFT area (for larger classrooms)' },
-  { id:'backright', label:'Back-R',    req:false, msg:'Optional: BACK-RIGHT area (for larger classrooms)' },
-  { id:'front',     label:'Front',     req:false, msg:'Optional: FRONT rows close to the board' },
-  { id:'gallery',   label:'Gallery',   req:false, msg:'Optional: Extra zone from gallery or window side' },
-  { id:'extra',     label:'Extra',     req:false, msg:'Optional: Any additional zone you need' },
+const ZONES=[
+  {id:'left',label:'Left',req:true,msg:'Capture the LEFT zone of the classroom'},
+  {id:'centre',label:'Centre',req:true,msg:'Capture the CENTRE zone — aim at the middle rows'},
+  {id:'right',label:'Right',req:true,msg:'Capture the RIGHT zone of the classroom'},
+  {id:'backleft',label:'Back-L',req:false,msg:'Optional: BACK-LEFT area'},
+  {id:'backright',label:'Back-R',req:false,msg:'Optional: BACK-RIGHT area'},
+  {id:'front',label:'Front',req:false,msg:'Optional: FRONT rows close to the board'},
+  {id:'gallery',label:'Gallery',req:false,msg:'Optional: Extra zone from gallery side'},
+  {id:'extra',label:'Extra',req:false,msg:'Optional: Any additional zone'},
 ];
-const MANDATORY = ZONES.filter(z => z.req).map(z => z.id);  // ['left','centre','right']
+const MANDATORY=ZONES.filter(z=>z.req).map(z=>z.id);
 
-// ── 4 Poses (Enrollment) ─────────────────────────────────
-const POSES = [
-  { id:'1', label:'Front',     req:true,  msg:'Photo 1: Eyes OPEN, looking straight at camera',  short:'Eyes open, front face' },
-  { id:'2', label:'Closed',    req:true,  msg:'Photo 2: Eyes CLOSED or half-closed',             short:'Eyes closed / half-closed' },
-  { id:'3', label:'Left Turn', req:false, msg:'Photo 3: Slight LEFT turn (optional)',             short:'Slight left turn' },
-  { id:'4', label:'Right Turn',req:false, msg:'Photo 4: Slight RIGHT turn (optional)',            short:'Slight right turn' },
+const POSES=[
+  {id:'1',label:'Front',req:true,msg:'Photo 1: Eyes OPEN, looking straight at camera',short:'Eyes open, front face'},
+  {id:'2',label:'Closed',req:true,msg:'Photo 2: Eyes CLOSED or half-closed',short:'Eyes closed'},
+  {id:'3',label:'Left Turn',req:false,msg:'Photo 3: Slight LEFT turn (optional)',short:'Slight left turn'},
+  {id:'4',label:'Right Turn',req:false,msg:'Photo 4: Slight RIGHT turn (optional)',short:'Slight right turn'},
 ];
-const MANDATORY_POSES = POSES.filter(p => p.req).map(p => p.id);  // ['1','2']
+const MANDATORY_POSES=POSES.filter(p=>p.req).map(p=>p.id);
 
-// ── State ──────────────────────────────────────────────────
-let session = {};
-let photos  = {};          // zone_id → dataURL (attendance) OR pose_id → dataURL (enrollment)
-let activeZone = 'left';
-let activePose = '1';
-let cameraFace = 'environment';  // 'environment' = rear
-let enrollCameraFace = 'user';   // default front camera for enrollment
-let connectionMode = 'trial';   // 'trial' or 'server'
-let sessionType = 'attendance';  // 'attendance' or 'enrollment'
-let serverUrl = '';
+let session={},photos={},activeZone='left',activePose='1';
+let cameraFace='environment',enrollCameraFace='user';
+let connectionMode='trial',sessionType='attendance',serverUrl='';
 
-// ── Session Type toggle ──────────────────────────────────
-function setSessionType(t) {
-  sessionType = t;
-  document.getElementById('typeAttBtn').classList.toggle('active', t === 'attendance');
-  document.getElementById('typeEnrollBtn').classList.toggle('active', t === 'enrollment');
-  document.getElementById('noteAttendance').style.display = t === 'attendance' ? 'block' : 'none';
-  document.getElementById('noteEnrollment').style.display = t === 'enrollment' ? 'block' : 'none';
-
-  // Show/hide relevant fields
-  document.getElementById('subjectFields').classList.toggle('hide', t === 'enrollment');
-  document.getElementById('enrollFields').classList.toggle('show', t === 'enrollment');
-
-  // Update button text
-  document.getElementById('setupStartBtn').textContent =
-    t === 'attendance' ? 'Start Photo Capture →' : 'Start Enrollment Capture →';
+function setSessionType(t){
+  sessionType=t;
+  document.getElementById('typeAttBtn').classList.toggle('active',t==='attendance');
+  document.getElementById('typeEnrollBtn').classList.toggle('active',t==='enrollment');
+  document.getElementById('noteAttendance').style.display=t==='attendance'?'block':'none';
+  document.getElementById('noteEnrollment').style.display=t==='enrollment'?'block':'none';
+  document.getElementById('subjectFields').classList.toggle('hide',t==='enrollment');
+  document.getElementById('enrollFields').classList.toggle('show',t==='enrollment');
+  document.getElementById('setupStartBtn').textContent=t==='attendance'?'Start Photo Capture →':'Start Enrollment Capture →';
 }
 
-// ── Mode toggle ──────────────────────────────────────────
-function setMode(m) {
-  connectionMode = m;
-  document.getElementById('modeTrialBtn').classList.toggle('active', m === 'trial');
-  document.getElementById('modeServerBtn').classList.toggle('active', m === 'server');
-  document.getElementById('serverFields').classList.toggle('show', m === 'server');
-  document.getElementById('modeNoteTrial').style.display = m === 'trial' ? 'block' : 'none';
-  document.getElementById('modeNoteServer').style.display = m === 'server' ? 'block' : 'none';
-  document.getElementById('versionBadge').textContent =
-    m === 'trial' ? 'v3.0 — Trial Mode' : 'v3.0 — Server Mode';
-  try { localStorage.setItem('upasthiti_mode', m); } catch(e) {}
+function setMode(m){
+  connectionMode=m;
+  document.getElementById('modeTrialBtn').classList.toggle('active',m==='trial');
+  document.getElementById('modeServerBtn').classList.toggle('active',m==='server');
+  document.getElementById('serverFields').classList.toggle('show',m==='server');
+  document.getElementById('modeNoteTrial').style.display=m==='trial'?'block':'none';
+  document.getElementById('modeNoteServer').style.display=m==='server'?'block':'none';
+  document.getElementById('versionBadge').textContent=m==='trial'?'v3.0 — Trial':'v3.0 — Server';
+  try{localStorage.setItem('upasthiti_mode',m)}catch(e){}
 }
 
-// ── Screens ────────────────────────────────────────────────
-function showScreen(id) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
-  if (id === 'setup') {
-    document.getElementById('f_date').value = todayStr();
-    try {
-      const sm = localStorage.getItem('upasthiti_mode'); if (sm) setMode(sm);
-      const sv = localStorage.getItem('upasthiti_server');
-      if (sv) document.getElementById('f_server').value = sv;
-    } catch(e) {}
+  if(id==='setup'){document.getElementById('f_date').value=todayStr();
+    try{const sm=localStorage.getItem('upasthiti_mode');if(sm)setMode(sm);
+      const sv=localStorage.getItem('upasthiti_server');if(sv)document.getElementById('f_server').value=sv}catch(e){}}
+}
+function todayStr(){const d=new Date();return[d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-')}
+function toast(msg,dur=2300){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._timer);t._timer=setTimeout(()=>t.classList.remove('show'),dur)}
+
+function startCapture(){
+  const college=document.getElementById('f_college').value.trim().toUpperCase();
+  const year=document.getElementById('f_year').value.trim().toUpperCase();
+  const branch=document.getElementById('f_branch').value.trim().toUpperCase();
+  const section=document.getElementById('f_section').value.trim().toUpperCase();
+  const date=document.getElementById('f_date').value||todayStr();
+  if(!college||!year||!branch||!section){toast('Please fill all required fields');return}
+  if(sessionType==='attendance'){
+    const subject=document.getElementById('f_subject').value.trim().toUpperCase();
+    if(!subject){toast('Please enter the Subject Code');return}
+    session={college,year,branch,section,subject,date,type:'attendance'};
+  }else{
+    const studentId=document.getElementById('f_student_id').value.trim().toUpperCase();
+    if(!studentId){toast('Please enter the Student ID');return}
+    session={college,year,branch,section,studentId,date,type:'enrollment'};
   }
-}
-
-function todayStr() {
-  const d = new Date();
-  return [d.getFullYear(),
-    String(d.getMonth()+1).padStart(2,'0'),
-    String(d.getDate()).padStart(2,'0')].join('-');
-}
-
-// ── Toast ──────────────────────────────────────────────────
-function toast(msg, dur=2300) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  clearTimeout(t._timer);
-  t._timer = setTimeout(() => t.classList.remove('show'), dur);
-}
-
-// ══════════════════════════════════════════════════════════
-//  ATTENDANCE CAPTURE
-// ══════════════════════════════════════════════════════════
-
-// ── Start session ──────────────────────────────────────────
-function startCapture() {
-  const college = document.getElementById('f_college').value.trim().toUpperCase();
-  const year    = document.getElementById('f_year').value.trim().toUpperCase();
-  const branch  = document.getElementById('f_branch').value.trim().toUpperCase();
-  const section = document.getElementById('f_section').value.trim().toUpperCase();
-  const date    = document.getElementById('f_date').value || todayStr();
-
-  if (!college || !year || !branch || !section) { toast('Please fill all required fields'); return; }
-  if (year.length < 2 || year.length > 6) { toast('Batch/Year: 2-6 characters (e.g. 2024 or B45)'); return; }
-
-  if (sessionType === 'attendance') {
-    const subject = document.getElementById('f_subject').value.trim().toUpperCase();
-    if (!subject) { toast('Please enter the Subject Code'); return; }
-    session = { college, year, branch, section, subject, date, type: 'attendance' };
-  } else {
-    const studentId = document.getElementById('f_student_id').value.trim().toUpperCase();
-    if (!studentId) { toast('Please enter the Student ID'); return; }
-    session = { college, year, branch, section, studentId, date, type: 'enrollment' };
+  if(connectionMode==='server'){
+    serverUrl=document.getElementById('f_server').value.trim();
+    if(!serverUrl){toast('Enter the College Server address');return}
+    if(!serverUrl.startsWith('http'))serverUrl='http://'+serverUrl;
+    serverUrl=serverUrl.replace(/\/+$/,'');
+    try{localStorage.setItem('upasthiti_server',document.getElementById('f_server').value.trim())}catch(e){}
   }
+  photos={};
+  if(sessionType==='attendance'){activeZone='left';showScreen('capture');buildZoneSelector();updateCaptureUI()}
+  else{activePose='1';showScreen('enrollCapture');buildPoseSelector();updateEnrollCaptureUI()}
+}
 
-  if (connectionMode === 'server') {
-    serverUrl = document.getElementById('f_server').value.trim();
-    if (!serverUrl) { toast('Enter the College Server address'); return; }
-    if (!serverUrl.startsWith('http')) serverUrl = 'http://' + serverUrl;
-    serverUrl = serverUrl.replace(/\/+$/, '');
-    try { localStorage.setItem('upasthiti_server', document.getElementById('f_server').value.trim()); } catch(e) {}
+// ── ATTENDANCE CAPTURE ──
+function buildZoneSelector(){
+  document.getElementById('zoneSelector').innerHTML=
+    ZONES.map(z=>{const cls=['zone-btn'];if(z.id===activeZone)cls.push('active');if(photos[z.id])cls.push('captured');
+      return`<button class="${cls.join(' ')}" onclick="selectZone('${z.id}')">${z.label}${photos[z.id]?' ✓':''}</button>`}).join('')+
+    `<button class="zone-btn" style="border-color:var(--amber);color:var(--amber);font-weight:700" onclick="showReview()">Review →</button>`;
+}
+function selectZone(id){activeZone=id;buildZoneSelector();updateCaptureUI()}
+function updateCaptureUI(){
+  const zone=ZONES.find(z=>z.id===activeZone),count=Object.keys(photos).length,mandOk=MANDATORY.every(id=>photos[id]);
+  document.getElementById('zoneBadge').textContent='Zone: '+zone.label;
+  document.getElementById('capturedLabel').textContent=zone.msg;
+  const cc=document.getElementById('capturedCount');cc.textContent=count+' captured';cc.className='captured-count '+(mandOk?'ok':'warn');
+  const img=document.getElementById('lastPhoto'),hint=document.getElementById('previewHint');
+  if(photos[activeZone]){img.src=photos[activeZone];img.style.display='block';hint.style.display='none'}
+  else{img.style.display='none';hint.style.display='flex'}
+}
+function handleCameraPhoto(e){const f=e.target.files[0];if(!f)return;processFile(f,activeZone);e.target.value=''}
+function openGallery(){document.getElementById('galleryInput').click()}
+function handleGalleryPhoto(e){const f=e.target.files[0];if(!f)return;processFile(f,activeZone);e.target.value=''}
+function processFile(file,zoneId){
+  const reader=new FileReader();reader.onload=function(e){
+    photos[zoneId]=e.target.result;toast('✓ '+ZONES.find(z=>z.id===zoneId).label+' captured');
+    const next=ZONES.find(z=>!photos[z.id]&&z.id!==zoneId);if(next)activeZone=next.id;
+    buildZoneSelector();updateCaptureUI();
+    if(MANDATORY.every(id=>photos[id])&&Object.keys(photos).length===MANDATORY.length)
+      setTimeout(()=>toast('All 3 mandatory zones done! Capture more or tap Review →',3000),600);
+  };reader.readAsDataURL(file);
+}
+function toggleCameraFace(){
+  cameraFace=cameraFace==='environment'?'user':'environment';
+  document.getElementById('cameraInput').setAttribute('capture',cameraFace);
+  toast(cameraFace==='environment'?'📷 Rear camera':'🤳 Front camera');
+}
+
+function showReview(){
+  if(!Object.keys(photos).length){toast('Capture at least one photo first');return}
+  const missing=MANDATORY.filter(id=>!photos[id]).map(id=>ZONES.find(z=>z.id===id).label);
+  if(missing.length&&!confirm('Missing: '+missing.join(', ')+'.\nProceed anyway?'))return;
+  document.getElementById('sessionInfo').innerHTML=`
+    <div class="item">College: <span>${session.college}</span></div><div class="item">Year: <span>${session.year}</span></div>
+    <div class="item">Branch: <span>${session.branch}</span></div><div class="item">Section: <span>${session.section}</span></div>
+    <div class="item">Subject: <span>${session.subject}</span></div><div class="item">Date: <span>${session.date}</span></div>`;
+  document.getElementById('zoneGrid').innerHTML=ZONES.map(z=>photos[z.id]
+    ?`<div class="zone-card"><img src="${photos[z.id]}"><div class="zone-lbl">${z.label} <span class="chk">✓</span></div></div>`
+    :`<div class="missing-card"><div class="icon">📷</div><p>${z.label}<br><small style="color:${z.req?'var(--red)':'var(--sub)'}">${z.req?'Required':'Optional'}</small></p></div>`).join('');
+  const count=Object.keys(photos).length;
+  if(connectionMode==='server'){document.getElementById('saveBtn').style.display='none';const b=document.getElementById('sendBtn');b.style.display='block';b.textContent=`📡 Send ${count} Photo${count>1?'s':''} to Server`;b.disabled=false}
+  else{document.getElementById('sendBtn').style.display='none';const b=document.getElementById('saveBtn');b.style.display='block';b.textContent=`💾 Save ${count} Photo${count>1?'s':''} to Device`;b.disabled=false}
+  document.getElementById('sendProgress').classList.remove('show');showScreen('review');
+}
+function goBackToCapture(){showScreen('capture');buildZoneSelector();updateCaptureUI()}
+
+async function savePhotos(){
+  const btn=document.getElementById('saveBtn');btn.disabled=true;btn.innerHTML='<span class="spinner"></span>Saving…';
+  const ts=new Date().toTimeString().slice(0,8).replace(/:/g,'');let saved=0;
+  for(const[zid,dataURL]of Object.entries(photos)){
+    const zone=ZONES.find(z=>z.id===zid);
+    const fn=`${session.subject}_${session.year}_${session.branch}_${session.section}_${session.date}_${ts}_${zone.label}.jpg`;
+    try{const r=await fetch(dataURL);const blob=await r.blob();const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=fn;document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(a.href);saved++;await new Promise(r=>setTimeout(r,350))}catch(e){console.error(e)}
   }
+  btn.disabled=false;btn.innerHTML='💾 Save to Device';
+  if(saved>0)showDoneScreen('saved',saved);else toast('Download failed');
+}
 
-  photos = {};
-
-  if (sessionType === 'attendance') {
-    activeZone = 'left';
-    showScreen('capture');
-    buildZoneSelector();
-    updateCaptureUI();
-  } else {
-    activePose = '1';
-    showScreen('enrollCapture');
-    buildPoseSelector();
-    updateEnrollCaptureUI();
+async function sendToServer(){
+  const btn=document.getElementById('sendBtn'),pDiv=document.getElementById('sendProgress'),pBar=document.getElementById('sendBar');
+  btn.disabled=true;btn.innerHTML='<span class="spinner"></span>Sending…';pDiv.classList.add('show');pBar.style.width='0%';
+  const entries=Object.entries(photos),total=entries.length;let sent=0,lastErr='';
+  for(let i=0;i<entries.length;i++){
+    const[zid,dataURL]=entries[i];const zone=ZONES.find(z=>z.id===zid);const isLast=(i===entries.length-1);
+    try{const resp=await fetch(serverUrl+'/receive',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({college_code:session.college,year:session.year,branch_code:session.branch,section:session.section,
+        subject_code:session.subject,date:session.date,zone_label:zone.label,photo_base64:dataURL,session_complete:isLast})});
+      if(resp.ok){sent++;pBar.style.width=Math.round((i+1)/total*100)+'%'}else{lastErr='Server: '+resp.status}
+    }catch(err){lastErr=err.message}
   }
+  btn.disabled=false;btn.innerHTML='📡 Send to Server';pDiv.classList.remove('show');
+  if(sent===total)showDoneScreen('sent',sent);else if(sent>0)toast(sent+'/'+total+' sent. '+lastErr,4000);else toast('Failed: '+lastErr,4000);
 }
 
-// ── Zone selector (scrollable row of 8) ────────────────────
-function buildZoneSelector() {
-  const sel = document.getElementById('zoneSelector');
-  sel.innerHTML =
-    ZONES.map(z => {
-      const cls = ['zone-btn'];
-      if (z.id === activeZone) cls.push('active');
-      if (photos[z.id])         cls.push('captured');
-      return `<button class="${cls.join(' ')}" onclick="selectZone('${z.id}')">${z.label}${photos[z.id]?' ✓':''}</button>`;
-    }).join('') +
-    `<button class="zone-btn" style="border-color:var(--amber);color:var(--amber);font-weight:700"
-             onclick="showReview()">Review&nbsp;→</button>`;
+// ── ENROLLMENT CAPTURE ──
+function buildPoseSelector(){
+  document.getElementById('poseSelector').innerHTML=
+    POSES.map(p=>{const cls=['pose-btn'];if(p.id===activePose)cls.push('active');if(photos[p.id])cls.push('captured');
+      return`<button class="${cls.join(' ')}" onclick="selectPose('${p.id}')">${p.label}${p.req?'<span class="req-dot"></span>':''}${photos[p.id]?' ✓':''}</button>`}).join('')+
+    `<button class="pose-btn" style="border-color:var(--amber);color:var(--amber);font-weight:700" onclick="showEnrollReview()">Review →</button>`;
+}
+function selectPose(id){activePose=id;buildPoseSelector();updateEnrollCaptureUI()}
+function updateEnrollCaptureUI(){
+  const pose=POSES.find(p=>p.id===activePose),count=Object.keys(photos).length,mandOk=MANDATORY_POSES.every(id=>photos[id]);
+  document.getElementById('enrollStudentBadge').textContent='Student: '+session.studentId;
+  document.getElementById('enrollPoseLabel').textContent=pose.msg;
+  const cc=document.getElementById('enrollCapturedCount');cc.textContent=count+' / '+MANDATORY_POSES.length+(count>MANDATORY_POSES.length?'+':'');cc.className='captured-count '+(mandOk?'ok':'warn');
+  const img=document.getElementById('enrollLastPhoto'),hint=document.getElementById('enrollPreviewHint');
+  if(photos[activePose]){img.src=photos[activePose];img.style.display='block';hint.style.display='none'}
+  else{img.style.display='none';hint.style.display='flex'}
+}
+function handleEnrollPhoto(e){const f=e.target.files[0];if(!f)return;processEnrollFile(f,activePose);e.target.value=''}
+function openEnrollGallery(){document.getElementById('enrollGalleryInput').click()}
+function handleEnrollGalleryPhoto(e){const f=e.target.files[0];if(!f)return;processEnrollFile(f,activePose);e.target.value=''}
+function processEnrollFile(file,poseId){
+  const reader=new FileReader();reader.onload=function(e){
+    photos[poseId]=e.target.result;toast('✓ '+POSES.find(p=>p.id===poseId).short+' captured');
+    const next=POSES.find(p=>!photos[p.id]&&p.id!==poseId);if(next)activePose=next.id;
+    buildPoseSelector();updateEnrollCaptureUI();
+    if(MANDATORY_POSES.every(id=>photos[id])&&Object.keys(photos).length===MANDATORY_POSES.length)
+      setTimeout(()=>toast('2 mandatory poses done! Add more or tap Review →',3000),600);
+  };reader.readAsDataURL(file);
+}
+function toggleEnrollCameraFace(){
+  enrollCameraFace=enrollCameraFace==='user'?'environment':'user';
+  document.getElementById('enrollCameraInput').setAttribute('capture',enrollCameraFace);
+  toast(enrollCameraFace==='user'?'🤳 Front camera':'📷 Rear camera');
 }
 
-function selectZone(zoneId) {
-  activeZone = zoneId;
-  buildZoneSelector();
-  updateCaptureUI();
+function showEnrollReview(){
+  if(!Object.keys(photos).length){toast('Capture at least one photo first');return}
+  const missing=MANDATORY_POSES.filter(id=>!photos[id]).map(id=>POSES.find(p=>p.id===id).short);
+  if(missing.length&&!confirm('Missing: '+missing.join(', ')+'.\nProceed anyway?'))return;
+  document.getElementById('enrollReviewSub').textContent='Student '+session.studentId;
+  document.getElementById('enrollSessionInfo').innerHTML=`
+    <div class="item">Student ID: <span>${session.studentId}</span></div><div class="item">College: <span>${session.college}</span></div>
+    <div class="item">Year: <span>${session.year}</span></div><div class="item">Branch: <span>${session.branch}</span></div>
+    <div class="item">Section: <span>${session.section}</span></div><div class="item">Photos: <span>${Object.keys(photos).length}</span></div>`;
+  document.getElementById('enrollPhotoGrid').innerHTML=POSES.map(p=>photos[p.id]
+    ?`<div class="enroll-photo-card"><img src="${photos[p.id]}"><div class="pose-lbl">${p.short} <span class="chk">✓</span></div></div>`
+    :`<div class="missing-card"><div class="icon">📷</div><p>${p.short}<br><small style="color:${p.req?'var(--red)':'var(--sub)'}">${p.req?'Required':'Optional'}</small></p></div>`).join('');
+  const count=Object.keys(photos).length;
+  if(connectionMode==='server'){document.getElementById('enrollSaveBtn').style.display='none';const b=document.getElementById('enrollSendBtn');b.style.display='block';b.textContent=`📡 Send ${count} Photo${count>1?'s':''} to Server`;b.disabled=false}
+  else{document.getElementById('enrollSendBtn').style.display='none';const b=document.getElementById('enrollSaveBtn');b.style.display='block';b.textContent=`💾 Save ${count} Photo${count>1?'s':''} to Device`;b.disabled=false}
+  document.getElementById('enrollSendProgress').classList.remove('show');showScreen('enrollReview');
 }
+function goBackToEnrollCapture(){showScreen('enrollCapture');buildPoseSelector();updateEnrollCaptureUI()}
 
-function updateCaptureUI() {
-  const zone   = ZONES.find(z => z.id === activeZone);
-  const count  = Object.keys(photos).length;
-  const mandOk = MANDATORY.every(id => photos[id]);
-
-  document.getElementById('zoneBadge').textContent   = 'Zone: ' + zone.label;
-  document.getElementById('capturedLabel').textContent = zone.msg;
-
-  const cc = document.getElementById('capturedCount');
-  cc.textContent  = count + ' captured';
-  cc.className    = 'captured-count ' + (mandOk ? 'ok' : 'warn');
-
-  // Preview: if this zone already has a photo, show it
-  const lastImg  = document.getElementById('lastPhoto');
-  const hint     = document.getElementById('previewHint');
-  if (photos[activeZone]) {
-    lastImg.src          = photos[activeZone];
-    lastImg.style.display = 'block';
-    hint.style.display   = 'none';
-  } else {
-    lastImg.style.display = 'none';
-    hint.style.display   = 'flex';
+async function saveEnrollPhotos(){
+  const btn=document.getElementById('enrollSaveBtn');btn.disabled=true;btn.innerHTML='<span class="spinner"></span>Saving…';let saved=0;
+  for(const[poseId,dataURL]of Object.entries(photos)){
+    const fn=`${session.studentId}_${poseId}.jpg`;
+    try{const r=await fetch(dataURL);const blob=await r.blob();const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=fn;document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(a.href);saved++;await new Promise(r=>setTimeout(r,350))}catch(e){console.error(e)}
   }
+  btn.disabled=false;btn.innerHTML='💾 Save to Device';
+  if(saved>0)showDoneScreen('enroll_saved',saved);else toast('Download failed');
 }
 
-// ── Shutter: file input with capture="environment" ─────────
-function handleCameraPhoto(event) {
-  const file = event.target.files[0];
-  if (!file) return;
-  processImageFile(file, activeZone, 'Camera');
-  event.target.value = '';
-}
-
-// ── Gallery: pick existing photo ───────────────────────────
-function openGallery() {
-  document.getElementById('galleryInput').click();
-}
-function handleGalleryPhoto(event) {
-  const file = event.target.files[0];
-  if (!file) return;
-  processImageFile(file, activeZone, 'Gallery');
-  event.target.value = '';
-}
-
-// ── Common: file → dataURL → store ────────────────────────
-function processImageFile(file, zoneId, source) {
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    photos[zoneId] = e.target.result;
-    const zoneName = ZONES.find(z => z.id === zoneId).label;
-    toast('✓ ' + zoneName + ' zone captured');
-
-    // Auto-advance to next uncaptured zone
-    const nextZone = ZONES.find(z => !photos[z.id] && z.id !== zoneId);
-    if (nextZone) activeZone = nextZone.id;
-
-    buildZoneSelector();
-    updateCaptureUI();
-
-    // Prompt review once all 3 mandatory zones are done
-    const mandOk = MANDATORY.every(id => photos[id]);
-    if (mandOk && Object.keys(photos).length === MANDATORY.length) {
-      setTimeout(() =>
-        toast('All 3 mandatory zones captured! Capture more or tap Review →', 3000), 600);
-    }
-  };
-  reader.readAsDataURL(file);
-}
-
-// ── Toggle front/rear camera ───────────────────────────────
-function toggleCameraFace() {
-  cameraFace = cameraFace === 'environment' ? 'user' : 'environment';
-  const inp = document.getElementById('cameraInput');
-  inp.setAttribute('capture', cameraFace);
-  toast(cameraFace === 'environment' ? '📷 Rear camera' : '🤳 Front camera');
-}
-
-// ── Review (Attendance) ───────────────────────────────────
-function showReview() {
-  if (Object.keys(photos).length === 0) { toast('Capture at least one photo first'); return; }
-  const missing = MANDATORY.filter(id => !photos[id])
-    .map(id => ZONES.find(z => z.id === id).label);
-  if (missing.length > 0) {
-    if (!confirm('Missing mandatory zone(s): ' + missing.join(', ') + '.\n\nProceed to review anyway?')) return;
+async function sendEnrollToServer(){
+  const btn=document.getElementById('enrollSendBtn'),pDiv=document.getElementById('enrollSendProgress'),pBar=document.getElementById('enrollSendBar');
+  btn.disabled=true;btn.innerHTML='<span class="spinner"></span>Sending…';pDiv.classList.add('show');pBar.style.width='0%';
+  const entries=Object.entries(photos),total=entries.length;let sent=0,lastErr='';
+  for(let i=0;i<entries.length;i++){
+    const[poseId,dataURL]=entries[i];const isLast=(i===entries.length-1);
+    try{const resp=await fetch(serverUrl+'/enroll',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({college_code:session.college,year:session.year,branch_code:session.branch,section:session.section,
+        student_id:session.studentId,pose_number:parseInt(poseId),photo_base64:dataURL,enrollment_complete:isLast})});
+      if(resp.ok){sent++;pBar.style.width=Math.round((i+1)/total*100)+'%'}else{lastErr='Server: '+resp.status}
+    }catch(err){lastErr=err.message}
   }
-
-  document.getElementById('sessionInfo').innerHTML = `
-    <div class="item">College: <span>${session.college}</span></div>
-    <div class="item">Year: <span>${session.year}</span></div>
-    <div class="item">Branch: <span>${session.branch}</span></div>
-    <div class="item">Section: <span>${session.section}</span></div>
-    <div class="item">Subject: <span>${session.subject}</span></div>
-    <div class="item">Date: <span>${session.date}</span></div>
-    <div class="item">Mode: <span>${connectionMode === 'server' ? '🖥 Server' : '📱 Trial'}</span></div>
-  `;
-
-  document.getElementById('zoneGrid').innerHTML =
-    ZONES.map(z => photos[z.id]
-      ? `<div class="zone-card">
-           <img src="${photos[z.id]}" alt="${z.label}">
-           <div class="zone-lbl">${z.label} <span class="chk">✓</span></div>
-         </div>`
-      : `<div class="missing-card">
-           <div class="icon">📷</div>
-           <p>${z.label}<br><small style="color:${z.req?'var(--red)':'var(--sub)'}">
-             ${z.req?'Required':'Optional'} — not captured</small></p>
-         </div>`
-    ).join('');
-
-  const count = Object.keys(photos).length;
-  const saveBtn = document.getElementById('saveBtn');
-  const sendBtn = document.getElementById('sendBtn');
-  if (connectionMode === 'server') {
-    saveBtn.style.display = 'none'; sendBtn.style.display = 'block';
-    sendBtn.textContent = `📡 Send ${count} Photo${count>1?'s':''} to Server`;
-    sendBtn.disabled = false;
-  } else {
-    saveBtn.style.display = 'block'; sendBtn.style.display = 'none';
-    saveBtn.textContent = `💾 Save ${count} Photo${count>1?'s':''} to Device`;
-    saveBtn.disabled = false;
-  }
-  document.getElementById('sendProgress').classList.remove('show');
-  showScreen('review');
+  btn.disabled=false;btn.innerHTML='📡 Send to Server';pDiv.classList.remove('show');
+  if(sent===total)showDoneScreen('enroll_sent',sent);else if(sent>0)toast(sent+'/'+total+' sent. '+lastErr,4000);else toast('Failed: '+lastErr,4000);
 }
 
-function goBackToCapture() {
-  showScreen('capture');
-  buildZoneSelector();
-  updateCaptureUI();
-}
-
-// ── Save photos (Attendance — Trial) ──────────────────────
-async function savePhotos() {
-  const btn = document.getElementById('saveBtn');
-  btn.disabled = true;
-  btn.innerHTML = '<span class="spinner"></span>Saving…';
-  const ts = new Date().toTimeString().slice(0,8).replace(/:/g,'');
-  let saved = 0;
-  for (const [zoneId, dataURL] of Object.entries(photos)) {
-    const zone = ZONES.find(z => z.id === zoneId);
-    const filename = `${session.subject}_${session.year}_${session.branch}_${session.section}_${session.date}_${ts}_${zone.label}.jpg`;
-    try {
-      const response = await fetch(dataURL);
-      const blob = await response.blob();
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = filename;
-      document.body.appendChild(a); a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(a.href);
-      saved++;
-      await new Promise(r => setTimeout(r, 350));
-    } catch(err) { console.error(err); }
-  }
-  btn.disabled = false;
-  btn.innerHTML = '💾 Save Photos to Device';
-  if (saved > 0) { showDoneScreen('saved', saved); }
-  else { toast('Download failed — try sharing from gallery'); }
-}
-
-// ── Send to Server (Attendance) ───────────────────────────
-async function sendToServer() {
-  const btn = document.getElementById('sendBtn');
-  const pDiv = document.getElementById('sendProgress');
-  const pBar = document.getElementById('sendBar');
-  btn.disabled = true;
-  btn.innerHTML = '<span class="spinner"></span>Sending…';
-  pDiv.classList.add('show'); pBar.style.width = '0%';
-
-  const entries = Object.entries(photos);
-  const total = entries.length;
-  let sent = 0, lastErr = '';
-
-  for (let i = 0; i < entries.length; i++) {
-    const [zid, dataURL] = entries[i];
-    const zone = ZONES.find(z => z.id === zid);
-    const isLast = (i === entries.length - 1);
-    try {
-      const resp = await fetch(serverUrl + '/receive', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          college_code: session.college,
-          year: session.year,
-          branch_code: session.branch,
-          section: session.section,
-          subject_code: session.subject,
-          date: session.date,
-          zone_label: zone.label,
-          photo_base64: dataURL,
-          session_complete: isLast
-        })
-      });
-      if (resp.ok) {
-        sent++;
-        pBar.style.width = Math.round((i + 1) / total * 100) + '%';
-        if (isLast) {
-          const r = await resp.json();
-          if (r.status === 'queued') toast('✓ Queued for processing!', 3000);
-        }
-      } else {
-        lastErr = 'Server: ' + resp.status;
-        console.error(await resp.text());
-      }
-    } catch (err) {
-      lastErr = err.message;
-      console.error(err);
-    }
-  }
-
-  btn.disabled = false;
-  btn.innerHTML = '📡 Send to Server';
-  pDiv.classList.remove('show');
-
-  if (sent === total) showDoneScreen('sent', sent);
-  else if (sent > 0) toast(sent + '/' + total + ' sent. ' + lastErr, 4000);
-  else toast('Failed: ' + lastErr, 4000);
-}
-
-
-// ══════════════════════════════════════════════════════════
-//  ENROLLMENT CAPTURE (2–4 Pose Photos per Student)
-// ══════════════════════════════════════════════════════════
-
-function buildPoseSelector() {
-  const sel = document.getElementById('poseSelector');
-  sel.innerHTML =
-    POSES.map(p => {
-      const cls = ['pose-btn'];
-      if (p.id === activePose) cls.push('active');
-      if (photos[p.id])         cls.push('captured');
-      return `<button class="${cls.join(' ')}" onclick="selectPose('${p.id}')">
-        ${p.label}${p.req ? '<span class="req-dot"></span>' : ''}${photos[p.id]?' ✓':''}
-      </button>`;
-    }).join('') +
-    `<button class="pose-btn" style="border-color:var(--amber);color:var(--amber);font-weight:700"
-             onclick="showEnrollReview()">Review&nbsp;→</button>`;
-}
-
-function selectPose(poseId) {
-  activePose = poseId;
-  buildPoseSelector();
-  updateEnrollCaptureUI();
-}
-
-function updateEnrollCaptureUI() {
-  const pose  = POSES.find(p => p.id === activePose);
-  const count = Object.keys(photos).length;
-  const mandOk = MANDATORY_POSES.every(id => photos[id]);
-
-  document.getElementById('enrollStudentBadge').textContent = 'Student: ' + session.studentId;
-  document.getElementById('enrollPoseLabel').textContent = pose.msg;
-
-  const cc = document.getElementById('enrollCapturedCount');
-  cc.textContent  = count + ' / ' + MANDATORY_POSES.length + (count > MANDATORY_POSES.length ? '+' : '');
-  cc.className    = 'captured-count ' + (mandOk ? 'ok' : 'warn');
-
-  const lastImg  = document.getElementById('enrollLastPhoto');
-  const hint     = document.getElementById('enrollPreviewHint');
-  if (photos[activePose]) {
-    lastImg.src          = photos[activePose];
-    lastImg.style.display = 'block';
-    hint.style.display   = 'none';
-  } else {
-    lastImg.style.display = 'none';
-    hint.style.display   = 'flex';
-  }
-}
-
-// ── Enrollment photo capture ─────────────────────────────
-function handleEnrollPhoto(event) {
-  const file = event.target.files[0];
-  if (!file) return;
-  processEnrollFile(file, activePose);
-  event.target.value = '';
-}
-
-function openEnrollGallery() {
-  document.getElementById('enrollGalleryInput').click();
-}
-function handleEnrollGalleryPhoto(event) {
-  const file = event.target.files[0];
-  if (!file) return;
-  processEnrollFile(file, activePose);
-  event.target.value = '';
-}
-
-function processEnrollFile(file, poseId) {
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    photos[poseId] = e.target.result;
-    const pose = POSES.find(p => p.id === poseId);
-    toast('✓ ' + pose.short + ' captured');
-
-    // Auto-advance to next uncaptured pose
-    const nextPose = POSES.find(p => !photos[p.id] && p.id !== poseId);
-    if (nextPose) activePose = nextPose.id;
-
-    buildPoseSelector();
-    updateEnrollCaptureUI();
-
-    // Prompt review once both mandatory poses are done
-    const mandOk = MANDATORY_POSES.every(id => photos[id]);
-    if (mandOk && Object.keys(photos).length === MANDATORY_POSES.length) {
-      setTimeout(() =>
-        toast('2 mandatory poses captured! Add more or tap Review →', 3000), 600);
-    }
-  };
-  reader.readAsDataURL(file);
-}
-
-function toggleEnrollCameraFace() {
-  enrollCameraFace = enrollCameraFace === 'user' ? 'environment' : 'user';
-  const inp = document.getElementById('enrollCameraInput');
-  inp.setAttribute('capture', enrollCameraFace);
-  toast(enrollCameraFace === 'user' ? '🤳 Front camera' : '📷 Rear camera');
-}
-
-// ── Enrollment Review ─────────────────────────────────────
-function showEnrollReview() {
-  if (Object.keys(photos).length === 0) { toast('Capture at least one photo first'); return; }
-  const missing = MANDATORY_POSES.filter(id => !photos[id])
-    .map(id => POSES.find(p => p.id === id).short);
-  if (missing.length > 0) {
-    if (!confirm('Missing mandatory pose(s): ' + missing.join(', ') + '.\n\nProceed to review anyway?')) return;
-  }
-
-  document.getElementById('enrollReviewSub').textContent = 'Student ' + session.studentId;
-  document.getElementById('enrollSessionInfo').innerHTML = `
-    <div class="item">Student ID: <span>${session.studentId}</span></div>
-    <div class="item">College: <span>${session.college}</span></div>
-    <div class="item">Year: <span>${session.year}</span></div>
-    <div class="item">Branch: <span>${session.branch}</span></div>
-    <div class="item">Section: <span>${session.section}</span></div>
-    <div class="item">Date: <span>${session.date}</span></div>
-    <div class="item">Photos: <span>${Object.keys(photos).length}</span></div>
-    <div class="item">Mode: <span>${connectionMode === 'server' ? '🖥 Server' : '📱 Trial'}</span></div>
-  `;
-
-  document.getElementById('enrollPhotoGrid').innerHTML =
-    POSES.map(p => photos[p.id]
-      ? `<div class="enroll-photo-card">
-           <img src="${photos[p.id]}" alt="${p.short}">
-           <div class="pose-lbl">${p.short} <span class="chk">✓</span></div>
-         </div>`
-      : `<div class="missing-card">
-           <div class="icon">📷</div>
-           <p>${p.short}<br><small style="color:${p.req?'var(--red)':'var(--sub)'}">
-             ${p.req?'Required':'Optional'} — not captured</small></p>
-         </div>`
-    ).join('');
-
-  const count = Object.keys(photos).length;
-  const saveBtn = document.getElementById('enrollSaveBtn');
-  const sendBtn = document.getElementById('enrollSendBtn');
-  if (connectionMode === 'server') {
-    saveBtn.style.display = 'none'; sendBtn.style.display = 'block';
-    sendBtn.textContent = `📡 Send ${count} Photo${count>1?'s':''} to Server`;
-    sendBtn.disabled = false;
-  } else {
-    saveBtn.style.display = 'block'; sendBtn.style.display = 'none';
-    saveBtn.textContent = `💾 Save ${count} Photo${count>1?'s':''} to Device`;
-    saveBtn.disabled = false;
-  }
-  document.getElementById('enrollSendProgress').classList.remove('show');
-  showScreen('enrollReview');
-}
-
-function goBackToEnrollCapture() {
-  showScreen('enrollCapture');
-  buildPoseSelector();
-  updateEnrollCaptureUI();
-}
-
-// ── Save enrollment photos (Trial) ────────────────────────
-async function saveEnrollPhotos() {
-  const btn = document.getElementById('enrollSaveBtn');
-  btn.disabled = true;
-  btn.innerHTML = '<span class="spinner"></span>Saving…';
-  let saved = 0;
-  for (const [poseId, dataURL] of Object.entries(photos)) {
-    // Naming convention: StudentID_PoseNumber.jpg  e.g. 32212_1.jpg
-    const filename = `${session.studentId}_${poseId}.jpg`;
-    try {
-      const response = await fetch(dataURL);
-      const blob = await response.blob();
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = filename;
-      document.body.appendChild(a); a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(a.href);
-      saved++;
-      await new Promise(r => setTimeout(r, 350));
-    } catch(err) { console.error(err); }
-  }
-  btn.disabled = false;
-  btn.innerHTML = '💾 Save Photos to Device';
-  if (saved > 0) { showDoneScreen('enroll_saved', saved); }
-  else { toast('Download failed — try sharing from gallery'); }
-}
-
-// ── Send enrollment photos to server ──────────────────────
-async function sendEnrollToServer() {
-  const btn = document.getElementById('enrollSendBtn');
-  const pDiv = document.getElementById('enrollSendProgress');
-  const pBar = document.getElementById('enrollSendBar');
-  btn.disabled = true;
-  btn.innerHTML = '<span class="spinner"></span>Sending…';
-  pDiv.classList.add('show'); pBar.style.width = '0%';
-
-  const entries = Object.entries(photos);
-  const total = entries.length;
-  let sent = 0, lastErr = '';
-
-  for (let i = 0; i < entries.length; i++) {
-    const [poseId, dataURL] = entries[i];
-    const isLast = (i === entries.length - 1);
-    try {
-      const resp = await fetch(serverUrl + '/enroll', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          college_code: session.college,
-          year: session.year,
-          branch_code: session.branch,
-          section: session.section,
-          student_id: session.studentId,
-          pose_number: parseInt(poseId),
-          photo_base64: dataURL,
-          enrollment_complete: isLast
-        })
-      });
-      if (resp.ok) {
-        sent++;
-        pBar.style.width = Math.round((i + 1) / total * 100) + '%';
-        if (isLast) {
-          const r = await resp.json();
-          if (r.status === 'enrolled' || r.status === 'queued') toast('✓ Enrollment received!', 3000);
-        }
-      } else {
-        lastErr = 'Server: ' + resp.status;
-        console.error(await resp.text());
-      }
-    } catch (err) {
-      lastErr = err.message;
-      console.error(err);
-    }
-  }
-
-  btn.disabled = false;
-  btn.innerHTML = '📡 Send to Server';
-  pDiv.classList.remove('show');
-
-  if (sent === total) showDoneScreen('enroll_sent', sent);
-  else if (sent > 0) toast(sent + '/' + total + ' sent. ' + lastErr, 4000);
-  else toast('Failed: ' + lastErr, 4000);
-}
-
-
-// ══════════════════════════════════════════════════════════
-//  DONE SCREEN (All modes)
-// ══════════════════════════════════════════════════════════
-
-function showDoneScreen(mode, count) {
-  const icon = document.getElementById('doneIcon');
-  const title = document.getElementById('doneTitle');
-  const detail = document.getElementById('doneDetail');
-  const path = document.getElementById('donePath');
-  const sub = document.getElementById('doneSub');
-  const purge = document.getElementById('purgeWarning');
-  const nextBtn = document.getElementById('doneNextStudentBtn');
-  const newBtn = document.getElementById('doneNewBtn');
-
-  // Default: hide enrollment-specific button
-  nextBtn.style.display = 'none';
-  newBtn.style.display = 'inline-block';
-
-  if (mode === 'sent') {
-    // Attendance — sent to server
-    icon.className = 'check-circle queued'; icon.textContent = '📡';
-    title.textContent = 'Sent to Server';
-    detail.innerHTML = '<strong>' + count + ' photo' + (count > 1 ? 's' : '') + '</strong> sent. Attendance will be processed automatically.';
-    // New folder structure: date/year/branch_section/subject
-    path.textContent = 'Photos/' + session.date + '/' + session.year + '/' + session.branch + '_' + session.section + '/' + session.subject + '/';
-    sub.textContent = 'The server will detect faces, match students, and generate the CSV automatically.';
-    purge.style.display = 'flex';
-  } else if (mode === 'saved') {
-    // Attendance — saved to device
-    icon.className = 'check-circle success'; icon.textContent = '✓';
-    title.textContent = 'Photos Saved';
-    detail.innerHTML = '<strong>' + count + ' photo' + (count > 1 ? 's' : '') + '</strong> saved to Downloads.';
-    path.textContent = 'Downloads/' + session.subject + '_' + session.year + '_' + session.branch + '_' + session.section + '_' + session.date + '_*.jpg';
-    sub.textContent = 'Transfer these photos to the vendor for attendance processing.';
-    purge.style.display = 'none';
-  } else if (mode === 'enroll_sent') {
-    // Enrollment — sent to server
-    icon.className = 'check-circle queued'; icon.textContent = '📡';
-    title.textContent = 'Enrollment Sent';
-    detail.innerHTML = '<strong>' + count + ' photo' + (count > 1 ? 's' : '') + '</strong> for student <strong>' + session.studentId + '</strong> sent to server.';
-    path.textContent = 'Input/' + session.college + '_' + session.year + '_' + session.branch + '_' + session.section + '/' + session.studentId + '_1.jpg … _' + count + '.jpg';
-    sub.textContent = 'The server will crop faces, validate, and build enrollment embeddings.';
-    purge.style.display = 'flex';
-    nextBtn.style.display = 'inline-block';
-  } else if (mode === 'enroll_saved') {
-    // Enrollment — saved to device
-    icon.className = 'check-circle success'; icon.textContent = '✓';
-    title.textContent = 'Enrollment Photos Saved';
-    detail.innerHTML = '<strong>' + count + ' photo' + (count > 1 ? 's' : '') + '</strong> for student <strong>' + session.studentId + '</strong> saved to Downloads.';
-    path.textContent = 'Downloads/' + session.studentId + '_1.jpg … _' + count + '.jpg';
-    sub.textContent = 'Transfer these photos to the Input folder for enrollment processing.';
-    purge.style.display = 'none';
-    nextBtn.style.display = 'inline-block';
+// ── DONE SCREEN ──
+function showDoneScreen(mode,count){
+  const icon=document.getElementById('doneIcon'),detail=document.getElementById('doneDetail'),
+    path=document.getElementById('donePath'),sub=document.getElementById('doneSub'),
+    purge=document.getElementById('purgeWarning'),nextBtn=document.getElementById('doneNextStudentBtn');
+  nextBtn.style.display='none';document.getElementById('doneNewBtn').style.display='inline-block';
+  if(mode==='sent'){
+    icon.className='check-circle queued';icon.textContent='📡';document.getElementById('doneTitle').textContent='Sent to Server';
+    detail.innerHTML='<strong>'+count+' photo'+(count>1?'s':'')+'</strong> sent. Attendance will be processed automatically.';
+    path.textContent='Photos/'+session.date+'/'+session.year+'/'+session.branch+'_'+session.section+'/'+session.subject+'/';
+    sub.textContent='The server will detect faces, match students, and generate the CSV.';purge.style.display='flex';
+  }else if(mode==='saved'){
+    icon.className='check-circle';icon.textContent='✓';document.getElementById('doneTitle').textContent='Photos Saved';
+    detail.innerHTML='<strong>'+count+' photo'+(count>1?'s':'')+'</strong> saved to Downloads.';
+    path.textContent='Downloads/'+session.subject+'_'+session.year+'_'+session.branch+'_'+session.section+'_'+session.date+'_*.jpg';
+    sub.textContent='Transfer these photos to the vendor for attendance processing.';purge.style.display='none';
+  }else if(mode==='enroll_sent'){
+    icon.className='check-circle queued';icon.textContent='📡';document.getElementById('doneTitle').textContent='Enrollment Sent';
+    detail.innerHTML='<strong>'+count+' photo'+(count>1?'s':'')+'</strong> for student <strong>'+session.studentId+'</strong> sent.';
+    path.textContent='Input/'+session.college+'_'+session.year+'_'+session.branch+'_'+session.section+'/'+session.studentId+'_1.jpg … _'+count+'.jpg';
+    sub.textContent='The server will crop faces, validate, and build enrollment embeddings.';purge.style.display='flex';nextBtn.style.display='inline-block';
+  }else if(mode==='enroll_saved'){
+    icon.className='check-circle';icon.textContent='✓';document.getElementById('doneTitle').textContent='Enrollment Saved';
+    detail.innerHTML='<strong>'+count+' photo'+(count>1?'s':'')+'</strong> for student <strong>'+session.studentId+'</strong> saved to Downloads.';
+    path.textContent='Downloads/'+session.studentId+'_1.jpg … _'+count+'.jpg';
+    sub.textContent='Transfer these photos to the Input folder for enrollment processing.';purge.style.display='none';nextBtn.style.display='inline-block';
   }
   showScreen('saved');
 }
+function nextStudent(){photos={};activePose='1';showScreen('setup');document.getElementById('f_student_id').value='';document.getElementById('f_student_id').focus()}
+function newSession(){photos={};showScreen('setup')}
 
-// ── Next Student (enrollment flow — reset for new student) ─
-function nextStudent() {
-  photos = {};
-  activePose = '1';
-  // Go back to setup but keep all fields except student ID
-  showScreen('setup');
-  document.getElementById('f_student_id').value = '';
-  document.getElementById('f_student_id').focus();
-}
-
-// ── New session ────────────────────────────────────────────
-function newSession() {
-  photos = {};
-  showScreen('setup');
-}
-
-// ── PWA service worker ─────────────────────────────────────
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () =>
-    navigator.serviceWorker.register('sw.js').catch(() => {})
-  );
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('f_date').value = todayStr();
-  try { const m = localStorage.getItem('upasthiti_mode'); if (m) setMode(m); } catch(e) {}
-});
+if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}))}
+document.addEventListener('DOMContentLoaded',()=>{document.getElementById('f_date').value=todayStr();try{const m=localStorage.getItem('upasthiti_mode');if(m)setMode(m)}catch(e){}});
 </script>
 </body>
 </html>
