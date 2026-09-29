@@ -1,5 +1,5 @@
 // UPASTHITI CHITRA — Service Worker (Offline Support)
-const CACHE_NAME = 'upasthiti-chitra-v4';
+const CACHE_NAME = 'upasthiti-chitra-v5';
 const ASSETS = [
   './app.html',
   './manifest.json'

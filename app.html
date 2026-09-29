@@ -221,6 +221,47 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
   border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite;
   display:inline-block;vertical-align:middle;margin-right:6px}
 @keyframes spin{to{transform:rotate(360deg)}}
+
+/* ── Session Type toggle (Attendance / Enrollment) ── */
+.session-toggle{display:flex;border-radius:10px;overflow:hidden;
+  border:1.5px solid var(--border);margin-bottom:14px}
+.session-toggle button{flex:1;padding:12px;border:none;background:var(--bg);
+  font-size:13px;font-weight:500;cursor:pointer;color:var(--sub);transition:all .2s}
+.session-toggle button.active{background:var(--indigo);color:#fff;font-weight:600}
+.session-note{font-size:11px;padding:8px 12px;border-radius:8px;margin-top:8px;line-height:1.5}
+.session-note.attendance{background:#E3F2FD;color:#0D47A1}
+.session-note.enrollment{background:#F3E5F5;color:#6A1B9A}
+
+/* ── Enrollment fields ── */
+.enroll-fields{display:none;margin-top:14px;padding-top:14px;border-top:1px solid var(--border)}
+.enroll-fields.show{display:block}
+.attendance-fields{display:block}
+.attendance-fields.hide{display:none}
+
+/* ── Enrollment capture: pose cards ── */
+.pose-selector{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;
+  scrollbar-width:none;-ms-overflow-style:none}
+.pose-selector::-webkit-scrollbar{display:none}
+.pose-btn{flex-shrink:0;padding:8px 14px;border-radius:20px;font-size:13px;font-weight:500;
+  cursor:pointer;border:1.5px solid rgba(255,255,255,.3);background:rgba(255,255,255,.08);
+  color:rgba(255,255,255,.8);transition:all .2s;white-space:nowrap}
+.pose-btn.active{background:var(--purple);border-color:var(--purple);color:#fff}
+.pose-btn.captured{background:var(--green);border-color:var(--green);color:#fff}
+.pose-btn.captured.active{box-shadow:0 0 0 2px #fff}
+.pose-btn .req-dot{display:inline-block;width:6px;height:6px;border-radius:50%;
+  background:var(--red);margin-left:4px;vertical-align:middle}
+
+/* ── Enrollment review: photo strip ── */
+.enroll-photo-strip{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.enroll-photo-card{background:var(--white);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow)}
+.enroll-photo-card img{width:100%;aspect-ratio:3/4;object-fit:cover;display:block}
+.enroll-photo-card .pose-lbl{padding:8px 12px;font-size:12px;font-weight:600;
+  display:flex;justify-content:space-between;align-items:center}
+.enroll-photo-card .pose-lbl .chk{color:var(--green);font-size:16px}
+
+/* Student ID display in capture */
+.student-id-bar{background:rgba(106,27,154,.85);color:#fff;padding:6px 16px;
+  border-radius:20px;font-size:13px;font-weight:600;backdrop-filter:blur(6px)}
 </style>
 </head>
 <body>
@@ -234,7 +275,7 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
   <div class="tagline">Photo-Based Attendance Capture</div>
   <div class="sanskrit">उपस्थिति चित्र — SAMJNA Project</div>
   <button class="start-btn" onclick="showScreen('setup')">Begin Session</button>
-  <div class="version-badge" id="versionBadge">v2.3</div>
+  <div class="version-badge" id="versionBadge">v3.0</div>
 </div>
 
 <!-- ═══ SETUP ═══ -->
@@ -244,6 +285,21 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
     <div><h1>Session Setup</h1><div class="subtitle">Enter class details</div></div>
   </div>
   <div class="form-body">
+    <!-- Session Type: Attendance or Enrollment -->
+    <div class="form-card">
+      <h2><span class="icon">📋</span> Session Type</h2>
+      <div class="session-toggle">
+        <button id="typeAttBtn" class="active" onclick="setSessionType('attendance')">📸 Attendance</button>
+        <button id="typeEnrollBtn" onclick="setSessionType('enrollment')">🎓 Enrollment</button>
+      </div>
+      <div class="session-note attendance" id="noteAttendance">
+        Capture zone photos of the classroom for attendance marking.
+      </div>
+      <div class="session-note enrollment" id="noteEnrollment" style="display:none">
+        Capture 2–4 photos per student for face enrollment.
+      </div>
+    </div>
+
     <div class="form-card">
       <h2><span class="icon">📡</span> Connection Mode</h2>
       <div class="mode-toggle">
@@ -286,11 +342,25 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
         <label>Section</label>
         <input type="text" id="f_section" placeholder="e.g. A, B" autocomplete="off" maxlength="2" style="text-transform:uppercase">
       </div>
-      <div class="field">
-        <label>Subject Code</label>
-        <input type="text" id="f_subject" placeholder="e.g. TH301" autocomplete="off" style="text-transform:uppercase">
+      <!-- Subject code: shown for attendance, hidden for enrollment -->
+      <div class="attendance-fields" id="subjectFields">
+        <div class="field">
+          <label>Subject Code</label>
+          <input type="text" id="f_subject" placeholder="e.g. TH301" autocomplete="off" style="text-transform:uppercase">
+        </div>
       </div>
     </div>
+
+    <!-- Enrollment-only: Student ID -->
+    <div class="form-card enroll-fields" id="enrollFields">
+      <h2><span class="icon">🎓</span> Student Enrollment</h2>
+      <div class="field">
+        <label>Student ID / Roll Number</label>
+        <input type="text" id="f_student_id" placeholder="e.g. 32212" autocomplete="off" inputmode="numeric">
+        <div class="hint">Enter the student's unique ID or roll number</div>
+      </div>
+    </div>
+
     <div class="form-card">
       <h2><span class="icon">📅</span> Date</h2>
       <div class="field">
@@ -301,11 +371,11 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
     </div>
   </div>
   <div class="bottom-bar">
-    <button class="btn-primary" onclick="startCapture()">Start Photo Capture →</button>
+    <button class="btn-primary" id="setupStartBtn" onclick="startCapture()">Start Photo Capture →</button>
   </div>
 </div>
 
-<!-- ═══ CAPTURE ═══ -->
+<!-- ═══ CAPTURE (Attendance — Zone Photos) ═══ -->
 <div id="capture" class="screen">
   <div class="capture-body">
 
@@ -359,7 +429,52 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
   <input type="file" id="galleryInput" accept="image/*" style="display:none" onchange="handleGalleryPhoto(event)">
 </div>
 
-<!-- ═══ REVIEW ═══ -->
+<!-- ═══ CAPTURE ENROLLMENT (Pose Photos) ═══ -->
+<div id="enrollCapture" class="screen">
+  <div class="capture-body">
+
+    <div class="preview-area" id="enrollPreviewArea">
+      <img id="enrollLastPhoto" alt="Last captured enrollment photo">
+      <div class="preview-hint" id="enrollPreviewHint">
+        <div class="big-icon">🎓</div>
+        <p>Capture the student's face<br>following the <strong>pose instructions</strong> below</p>
+        <small>Front camera recommended for self-enrollment</small>
+      </div>
+      <div class="preview-overlay">
+        <div class="student-id-bar" id="enrollStudentBadge">Student: 32212</div>
+        <div class="captured-count warn" id="enrollCapturedCount">0 / 2</div>
+      </div>
+      <div class="captured-label" id="enrollPoseLabel">Photo 1: Eyes open, looking straight at camera</div>
+    </div>
+
+    <div class="capture-controls">
+      <div class="pose-selector" id="poseSelector"></div>
+
+      <div class="capture-row">
+        <button class="cam-action-btn" onclick="openEnrollGallery()" title="Choose from gallery">🖼</button>
+
+        <label class="shutter-label" id="enrollShutterLabel">
+          <input type="file"
+                 id="enrollCameraInput"
+                 accept="image/*"
+                 capture="user"
+                 onchange="handleEnrollPhoto(event)">
+          <div class="shutter-ring"></div>
+        </label>
+
+        <button class="cam-action-btn" id="enrollSwitchBtn" onclick="toggleEnrollCameraFace()" title="Switch camera">🔄</button>
+      </div>
+
+      <div style="text-align:center;font-size:11px;color:rgba(255,255,255,.45);margin-top:2px">
+        Tap ⬤ to capture • Tap pose to select • 2 mandatory + 2 optional
+      </div>
+    </div>
+  </div>
+
+  <input type="file" id="enrollGalleryInput" accept="image/*" style="display:none" onchange="handleEnrollGalleryPhoto(event)">
+</div>
+
+<!-- ═══ REVIEW (Attendance) ═══ -->
 <div id="review" class="screen">
   <div class="topbar">
     <button class="back-btn" onclick="goBackToCapture()">‹</button>
@@ -377,6 +492,27 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
     <button class="btn-primary btn-send" id="sendBtn" onclick="sendToServer()" style="display:none">📡 Send to College Server</button>
     <div class="send-progress" id="sendProgress"><div class="bar" id="sendBar"></div></div>
     <button class="btn-secondary" onclick="goBackToCapture()">← Retake Photos</button>
+  </div>
+</div>
+
+<!-- ═══ REVIEW (Enrollment) ═══ -->
+<div id="enrollReview" class="screen">
+  <div class="topbar">
+    <button class="back-btn" onclick="goBackToEnrollCapture()">‹</button>
+    <div><h1>Review Enrollment</h1><div class="subtitle" id="enrollReviewSub">Student photos</div></div>
+  </div>
+  <div class="review-body">
+    <div class="session-summary">
+      <h3>🎓 Enrollment Details</h3>
+      <div class="session-info" id="enrollSessionInfo"></div>
+    </div>
+    <div id="enrollPhotoGrid" class="enroll-photo-strip"></div>
+  </div>
+  <div class="bottom-bar">
+    <button class="btn-primary" id="enrollSaveBtn" onclick="saveEnrollPhotos()" style="display:none">💾 Save Photos to Device</button>
+    <button class="btn-primary btn-send" id="enrollSendBtn" onclick="sendEnrollToServer()" style="display:none">📡 Send to College Server</button>
+    <div class="send-progress" id="enrollSendProgress"><div class="bar" id="enrollSendBar"></div></div>
+    <button class="btn-secondary" onclick="goBackToEnrollCapture()">← Retake Photos</button>
   </div>
 </div>
 
@@ -400,7 +536,8 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
         <small>Photos must not remain on personal devices.</small>
       </div>
     </div>
-    <button class="btn-new" onclick="newSession()">📸 New Session</button>
+    <button class="btn-new" id="doneNewBtn" onclick="newSession()">📸 New Session</button>
+    <button class="btn-new" id="doneNextStudentBtn" onclick="nextStudent()" style="display:none;margin-top:8px">🎓 Next Student</button>
   </div>
 </div>
 
@@ -408,13 +545,15 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 
 <script>
 /* ═══════════════════════════════════════════════════════════
-   UPASTHITI CHITRA — Mobile Capture App  v2.3
+   UPASTHITI CHITRA — Mobile Capture App  v3.0
+   • Attendance mode: zone photo capture (8 zones)
+   • Enrollment mode: 2–4 pose photos per student
    • Trial mode: save to phone Downloads
    • Server mode: auto-send to college server + session_complete
-   • Folder naming: YearOfStarting_Branch_Section
+   • Folder structure: date/year/branch_section/subject_code
    ═══════════════════════════════════════════════════════════ */
 
-// ── 8 Zones ────────────────────────────────────────────────
+// ── 8 Zones (Attendance) ──────────────────────────────────
 const ZONES = [
   { id:'left',      label:'Left',      req:true,  msg:'Capture the LEFT zone of the classroom' },
   { id:'centre',    label:'Centre',    req:true,  msg:'Capture the CENTRE zone — aim at the middle rows' },
@@ -427,13 +566,42 @@ const ZONES = [
 ];
 const MANDATORY = ZONES.filter(z => z.req).map(z => z.id);  // ['left','centre','right']
 
+// ── 4 Poses (Enrollment) ─────────────────────────────────
+const POSES = [
+  { id:'1', label:'Front',     req:true,  msg:'Photo 1: Eyes OPEN, looking straight at camera',  short:'Eyes open, front face' },
+  { id:'2', label:'Closed',    req:true,  msg:'Photo 2: Eyes CLOSED or half-closed',             short:'Eyes closed / half-closed' },
+  { id:'3', label:'Left Turn', req:false, msg:'Photo 3: Slight LEFT turn (optional)',             short:'Slight left turn' },
+  { id:'4', label:'Right Turn',req:false, msg:'Photo 4: Slight RIGHT turn (optional)',            short:'Slight right turn' },
+];
+const MANDATORY_POSES = POSES.filter(p => p.req).map(p => p.id);  // ['1','2']
+
 // ── State ──────────────────────────────────────────────────
 let session = {};
-let photos  = {};          // zone_id → dataURL
+let photos  = {};          // zone_id → dataURL (attendance) OR pose_id → dataURL (enrollment)
 let activeZone = 'left';
+let activePose = '1';
 let cameraFace = 'environment';  // 'environment' = rear
+let enrollCameraFace = 'user';   // default front camera for enrollment
 let connectionMode = 'trial';   // 'trial' or 'server'
+let sessionType = 'attendance';  // 'attendance' or 'enrollment'
 let serverUrl = '';
+
+// ── Session Type toggle ──────────────────────────────────
+function setSessionType(t) {
+  sessionType = t;
+  document.getElementById('typeAttBtn').classList.toggle('active', t === 'attendance');
+  document.getElementById('typeEnrollBtn').classList.toggle('active', t === 'enrollment');
+  document.getElementById('noteAttendance').style.display = t === 'attendance' ? 'block' : 'none';
+  document.getElementById('noteEnrollment').style.display = t === 'enrollment' ? 'block' : 'none';
+
+  // Show/hide relevant fields
+  document.getElementById('subjectFields').classList.toggle('hide', t === 'enrollment');
+  document.getElementById('enrollFields').classList.toggle('show', t === 'enrollment');
+
+  // Update button text
+  document.getElementById('setupStartBtn').textContent =
+    t === 'attendance' ? 'Start Photo Capture →' : 'Start Enrollment Capture →';
+}
 
 // ── Mode toggle ──────────────────────────────────────────
 function setMode(m) {
@@ -444,7 +612,7 @@ function setMode(m) {
   document.getElementById('modeNoteTrial').style.display = m === 'trial' ? 'block' : 'none';
   document.getElementById('modeNoteServer').style.display = m === 'server' ? 'block' : 'none';
   document.getElementById('versionBadge').textContent =
-    m === 'trial' ? 'v2.3 — Trial Mode' : 'v2.3 — Server Mode';
+    m === 'trial' ? 'v3.0 — Trial Mode' : 'v3.0 — Server Mode';
   try { localStorage.setItem('upasthiti_mode', m); } catch(e) {}
 }
 
@@ -478,17 +646,30 @@ function toast(msg, dur=2300) {
   t._timer = setTimeout(() => t.classList.remove('show'), dur);
 }
 
+// ══════════════════════════════════════════════════════════
+//  ATTENDANCE CAPTURE
+// ══════════════════════════════════════════════════════════
+
 // ── Start session ──────────────────────────────────────────
 function startCapture() {
   const college = document.getElementById('f_college').value.trim().toUpperCase();
   const year    = document.getElementById('f_year').value.trim().toUpperCase();
   const branch  = document.getElementById('f_branch').value.trim().toUpperCase();
   const section = document.getElementById('f_section').value.trim().toUpperCase();
-  const subject = document.getElementById('f_subject').value.trim().toUpperCase();
   const date    = document.getElementById('f_date').value || todayStr();
 
-  if (!college || !year || !branch || !section || !subject) { toast('Please fill all fields'); return; }
+  if (!college || !year || !branch || !section) { toast('Please fill all required fields'); return; }
   if (year.length < 2 || year.length > 6) { toast('Batch/Year: 2-6 characters (e.g. 2024 or B45)'); return; }
+
+  if (sessionType === 'attendance') {
+    const subject = document.getElementById('f_subject').value.trim().toUpperCase();
+    if (!subject) { toast('Please enter the Subject Code'); return; }
+    session = { college, year, branch, section, subject, date, type: 'attendance' };
+  } else {
+    const studentId = document.getElementById('f_student_id').value.trim().toUpperCase();
+    if (!studentId) { toast('Please enter the Student ID'); return; }
+    session = { college, year, branch, section, studentId, date, type: 'enrollment' };
+  }
 
   if (connectionMode === 'server') {
     serverUrl = document.getElementById('f_server').value.trim();
@@ -498,13 +679,19 @@ function startCapture() {
     try { localStorage.setItem('upasthiti_server', document.getElementById('f_server').value.trim()); } catch(e) {}
   }
 
-  session = { college, year, branch, section, subject, date };
-  photos  = {};
-  activeZone = 'left';
+  photos = {};
 
-  showScreen('capture');
-  buildZoneSelector();
-  updateCaptureUI();
+  if (sessionType === 'attendance') {
+    activeZone = 'left';
+    showScreen('capture');
+    buildZoneSelector();
+    updateCaptureUI();
+  } else {
+    activePose = '1';
+    showScreen('enrollCapture');
+    buildPoseSelector();
+    updateEnrollCaptureUI();
+  }
 }
 
 // ── Zone selector (scrollable row of 8) ────────────────────
@@ -553,14 +740,11 @@ function updateCaptureUI() {
 }
 
 // ── Shutter: file input with capture="environment" ─────────
-// When the teacher taps the white circle, the label triggers
-// the hidden <input type="file" capture="environment">.
-// Android opens the rear camera directly — no permission dialog.
 function handleCameraPhoto(event) {
   const file = event.target.files[0];
   if (!file) return;
   processImageFile(file, activeZone, 'Camera');
-  event.target.value = '';   // reset so same zone can be re-shot
+  event.target.value = '';
 }
 
 // ── Gallery: pick existing photo ───────────────────────────
@@ -600,8 +784,6 @@ function processImageFile(file, zoneId, source) {
 }
 
 // ── Toggle front/rear camera ───────────────────────────────
-// Changes the capture attribute on the hidden file input.
-// 'environment' = rear, 'user' = front.
 function toggleCameraFace() {
   cameraFace = cameraFace === 'environment' ? 'user' : 'environment';
   const inp = document.getElementById('cameraInput');
@@ -609,7 +791,7 @@ function toggleCameraFace() {
   toast(cameraFace === 'environment' ? '📷 Rear camera' : '🤳 Front camera');
 }
 
-// ── Review ─────────────────────────────────────────────────
+// ── Review (Attendance) ───────────────────────────────────
 function showReview() {
   if (Object.keys(photos).length === 0) { toast('Capture at least one photo first'); return; }
   const missing = MANDATORY.filter(id => !photos[id])
@@ -663,8 +845,7 @@ function goBackToCapture() {
   updateCaptureUI();
 }
 
-// ── Save photos ────────────────────────────────────────────
-/* ── TRIAL: Save to Device ─────────────────────────────── */
+// ── Save photos (Attendance — Trial) ──────────────────────
 async function savePhotos() {
   const btn = document.getElementById('saveBtn');
   btn.disabled = true;
@@ -693,7 +874,7 @@ async function savePhotos() {
   else { toast('Download failed — try sharing from gallery'); }
 }
 
-/* ── SERVER: Send to College Server + session_complete ─── */
+// ── Send to Server (Attendance) ───────────────────────────
 async function sendToServer() {
   const btn = document.getElementById('sendBtn');
   const pDiv = document.getElementById('sendProgress');
@@ -752,7 +933,251 @@ async function sendToServer() {
   else toast('Failed: ' + lastErr, 4000);
 }
 
-/* ── Done screen (both modes) ──────────────────────────── */
+
+// ══════════════════════════════════════════════════════════
+//  ENROLLMENT CAPTURE (2–4 Pose Photos per Student)
+// ══════════════════════════════════════════════════════════
+
+function buildPoseSelector() {
+  const sel = document.getElementById('poseSelector');
+  sel.innerHTML =
+    POSES.map(p => {
+      const cls = ['pose-btn'];
+      if (p.id === activePose) cls.push('active');
+      if (photos[p.id])         cls.push('captured');
+      return `<button class="${cls.join(' ')}" onclick="selectPose('${p.id}')">
+        ${p.label}${p.req ? '<span class="req-dot"></span>' : ''}${photos[p.id]?' ✓':''}
+      </button>`;
+    }).join('') +
+    `<button class="pose-btn" style="border-color:var(--amber);color:var(--amber);font-weight:700"
+             onclick="showEnrollReview()">Review&nbsp;→</button>`;
+}
+
+function selectPose(poseId) {
+  activePose = poseId;
+  buildPoseSelector();
+  updateEnrollCaptureUI();
+}
+
+function updateEnrollCaptureUI() {
+  const pose  = POSES.find(p => p.id === activePose);
+  const count = Object.keys(photos).length;
+  const mandOk = MANDATORY_POSES.every(id => photos[id]);
+
+  document.getElementById('enrollStudentBadge').textContent = 'Student: ' + session.studentId;
+  document.getElementById('enrollPoseLabel').textContent = pose.msg;
+
+  const cc = document.getElementById('enrollCapturedCount');
+  cc.textContent  = count + ' / ' + MANDATORY_POSES.length + (count > MANDATORY_POSES.length ? '+' : '');
+  cc.className    = 'captured-count ' + (mandOk ? 'ok' : 'warn');
+
+  const lastImg  = document.getElementById('enrollLastPhoto');
+  const hint     = document.getElementById('enrollPreviewHint');
+  if (photos[activePose]) {
+    lastImg.src          = photos[activePose];
+    lastImg.style.display = 'block';
+    hint.style.display   = 'none';
+  } else {
+    lastImg.style.display = 'none';
+    hint.style.display   = 'flex';
+  }
+}
+
+// ── Enrollment photo capture ─────────────────────────────
+function handleEnrollPhoto(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  processEnrollFile(file, activePose);
+  event.target.value = '';
+}
+
+function openEnrollGallery() {
+  document.getElementById('enrollGalleryInput').click();
+}
+function handleEnrollGalleryPhoto(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  processEnrollFile(file, activePose);
+  event.target.value = '';
+}
+
+function processEnrollFile(file, poseId) {
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    photos[poseId] = e.target.result;
+    const pose = POSES.find(p => p.id === poseId);
+    toast('✓ ' + pose.short + ' captured');
+
+    // Auto-advance to next uncaptured pose
+    const nextPose = POSES.find(p => !photos[p.id] && p.id !== poseId);
+    if (nextPose) activePose = nextPose.id;
+
+    buildPoseSelector();
+    updateEnrollCaptureUI();
+
+    // Prompt review once both mandatory poses are done
+    const mandOk = MANDATORY_POSES.every(id => photos[id]);
+    if (mandOk && Object.keys(photos).length === MANDATORY_POSES.length) {
+      setTimeout(() =>
+        toast('2 mandatory poses captured! Add more or tap Review →', 3000), 600);
+    }
+  };
+  reader.readAsDataURL(file);
+}
+
+function toggleEnrollCameraFace() {
+  enrollCameraFace = enrollCameraFace === 'user' ? 'environment' : 'user';
+  const inp = document.getElementById('enrollCameraInput');
+  inp.setAttribute('capture', enrollCameraFace);
+  toast(enrollCameraFace === 'user' ? '🤳 Front camera' : '📷 Rear camera');
+}
+
+// ── Enrollment Review ─────────────────────────────────────
+function showEnrollReview() {
+  if (Object.keys(photos).length === 0) { toast('Capture at least one photo first'); return; }
+  const missing = MANDATORY_POSES.filter(id => !photos[id])
+    .map(id => POSES.find(p => p.id === id).short);
+  if (missing.length > 0) {
+    if (!confirm('Missing mandatory pose(s): ' + missing.join(', ') + '.\n\nProceed to review anyway?')) return;
+  }
+
+  document.getElementById('enrollReviewSub').textContent = 'Student ' + session.studentId;
+  document.getElementById('enrollSessionInfo').innerHTML = `
+    <div class="item">Student ID: <span>${session.studentId}</span></div>
+    <div class="item">College: <span>${session.college}</span></div>
+    <div class="item">Year: <span>${session.year}</span></div>
+    <div class="item">Branch: <span>${session.branch}</span></div>
+    <div class="item">Section: <span>${session.section}</span></div>
+    <div class="item">Date: <span>${session.date}</span></div>
+    <div class="item">Photos: <span>${Object.keys(photos).length}</span></div>
+    <div class="item">Mode: <span>${connectionMode === 'server' ? '🖥 Server' : '📱 Trial'}</span></div>
+  `;
+
+  document.getElementById('enrollPhotoGrid').innerHTML =
+    POSES.map(p => photos[p.id]
+      ? `<div class="enroll-photo-card">
+           <img src="${photos[p.id]}" alt="${p.short}">
+           <div class="pose-lbl">${p.short} <span class="chk">✓</span></div>
+         </div>`
+      : `<div class="missing-card">
+           <div class="icon">📷</div>
+           <p>${p.short}<br><small style="color:${p.req?'var(--red)':'var(--sub)'}">
+             ${p.req?'Required':'Optional'} — not captured</small></p>
+         </div>`
+    ).join('');
+
+  const count = Object.keys(photos).length;
+  const saveBtn = document.getElementById('enrollSaveBtn');
+  const sendBtn = document.getElementById('enrollSendBtn');
+  if (connectionMode === 'server') {
+    saveBtn.style.display = 'none'; sendBtn.style.display = 'block';
+    sendBtn.textContent = `📡 Send ${count} Photo${count>1?'s':''} to Server`;
+    sendBtn.disabled = false;
+  } else {
+    saveBtn.style.display = 'block'; sendBtn.style.display = 'none';
+    saveBtn.textContent = `💾 Save ${count} Photo${count>1?'s':''} to Device`;
+    saveBtn.disabled = false;
+  }
+  document.getElementById('enrollSendProgress').classList.remove('show');
+  showScreen('enrollReview');
+}
+
+function goBackToEnrollCapture() {
+  showScreen('enrollCapture');
+  buildPoseSelector();
+  updateEnrollCaptureUI();
+}
+
+// ── Save enrollment photos (Trial) ────────────────────────
+async function saveEnrollPhotos() {
+  const btn = document.getElementById('enrollSaveBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>Saving…';
+  let saved = 0;
+  for (const [poseId, dataURL] of Object.entries(photos)) {
+    // Naming convention: StudentID_PoseNumber.jpg  e.g. 32212_1.jpg
+    const filename = `${session.studentId}_${poseId}.jpg`;
+    try {
+      const response = await fetch(dataURL);
+      const blob = await response.blob();
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = filename;
+      document.body.appendChild(a); a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(a.href);
+      saved++;
+      await new Promise(r => setTimeout(r, 350));
+    } catch(err) { console.error(err); }
+  }
+  btn.disabled = false;
+  btn.innerHTML = '💾 Save Photos to Device';
+  if (saved > 0) { showDoneScreen('enroll_saved', saved); }
+  else { toast('Download failed — try sharing from gallery'); }
+}
+
+// ── Send enrollment photos to server ──────────────────────
+async function sendEnrollToServer() {
+  const btn = document.getElementById('enrollSendBtn');
+  const pDiv = document.getElementById('enrollSendProgress');
+  const pBar = document.getElementById('enrollSendBar');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>Sending…';
+  pDiv.classList.add('show'); pBar.style.width = '0%';
+
+  const entries = Object.entries(photos);
+  const total = entries.length;
+  let sent = 0, lastErr = '';
+
+  for (let i = 0; i < entries.length; i++) {
+    const [poseId, dataURL] = entries[i];
+    const isLast = (i === entries.length - 1);
+    try {
+      const resp = await fetch(serverUrl + '/enroll', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          college_code: session.college,
+          year: session.year,
+          branch_code: session.branch,
+          section: session.section,
+          student_id: session.studentId,
+          pose_number: parseInt(poseId),
+          photo_base64: dataURL,
+          enrollment_complete: isLast
+        })
+      });
+      if (resp.ok) {
+        sent++;
+        pBar.style.width = Math.round((i + 1) / total * 100) + '%';
+        if (isLast) {
+          const r = await resp.json();
+          if (r.status === 'enrolled' || r.status === 'queued') toast('✓ Enrollment received!', 3000);
+        }
+      } else {
+        lastErr = 'Server: ' + resp.status;
+        console.error(await resp.text());
+      }
+    } catch (err) {
+      lastErr = err.message;
+      console.error(err);
+    }
+  }
+
+  btn.disabled = false;
+  btn.innerHTML = '📡 Send to Server';
+  pDiv.classList.remove('show');
+
+  if (sent === total) showDoneScreen('enroll_sent', sent);
+  else if (sent > 0) toast(sent + '/' + total + ' sent. ' + lastErr, 4000);
+  else toast('Failed: ' + lastErr, 4000);
+}
+
+
+// ══════════════════════════════════════════════════════════
+//  DONE SCREEN (All modes)
+// ══════════════════════════════════════════════════════════
+
 function showDoneScreen(mode, count) {
   const icon = document.getElementById('doneIcon');
   const title = document.getElementById('doneTitle');
@@ -760,22 +1185,60 @@ function showDoneScreen(mode, count) {
   const path = document.getElementById('donePath');
   const sub = document.getElementById('doneSub');
   const purge = document.getElementById('purgeWarning');
+  const nextBtn = document.getElementById('doneNextStudentBtn');
+  const newBtn = document.getElementById('doneNewBtn');
+
+  // Default: hide enrollment-specific button
+  nextBtn.style.display = 'none';
+  newBtn.style.display = 'inline-block';
+
   if (mode === 'sent') {
+    // Attendance — sent to server
     icon.className = 'check-circle queued'; icon.textContent = '📡';
     title.textContent = 'Sent to Server';
     detail.innerHTML = '<strong>' + count + ' photo' + (count > 1 ? 's' : '') + '</strong> sent. Attendance will be processed automatically.';
-    path.textContent = session.year + '_' + session.branch + '_' + session.section + ' / ' + session.subject + ' / ' + session.date;
+    // New folder structure: date/year/branch_section/subject
+    path.textContent = 'Photos/' + session.date + '/' + session.year + '/' + session.branch + '_' + session.section + '/' + session.subject + '/';
     sub.textContent = 'The server will detect faces, match students, and generate the CSV automatically.';
-    purge.style.display = 'flex';  // Show purge warning in Server mode
-  } else {
+    purge.style.display = 'flex';
+  } else if (mode === 'saved') {
+    // Attendance — saved to device
     icon.className = 'check-circle success'; icon.textContent = '✓';
     title.textContent = 'Photos Saved';
     detail.innerHTML = '<strong>' + count + ' photo' + (count > 1 ? 's' : '') + '</strong> saved to Downloads.';
     path.textContent = 'Downloads/' + session.subject + '_' + session.year + '_' + session.branch + '_' + session.section + '_' + session.date + '_*.jpg';
     sub.textContent = 'Transfer these photos to the vendor for attendance processing.';
-    purge.style.display = 'none';  // No purge in Trial mode (photos needed for transfer)
+    purge.style.display = 'none';
+  } else if (mode === 'enroll_sent') {
+    // Enrollment — sent to server
+    icon.className = 'check-circle queued'; icon.textContent = '📡';
+    title.textContent = 'Enrollment Sent';
+    detail.innerHTML = '<strong>' + count + ' photo' + (count > 1 ? 's' : '') + '</strong> for student <strong>' + session.studentId + '</strong> sent to server.';
+    path.textContent = 'Input/' + session.college + '_' + session.year + '_' + session.branch + '_' + session.section + '/' + session.studentId + '_1.jpg … _' + count + '.jpg';
+    sub.textContent = 'The server will crop faces, validate, and build enrollment embeddings.';
+    purge.style.display = 'flex';
+    nextBtn.style.display = 'inline-block';
+  } else if (mode === 'enroll_saved') {
+    // Enrollment — saved to device
+    icon.className = 'check-circle success'; icon.textContent = '✓';
+    title.textContent = 'Enrollment Photos Saved';
+    detail.innerHTML = '<strong>' + count + ' photo' + (count > 1 ? 's' : '') + '</strong> for student <strong>' + session.studentId + '</strong> saved to Downloads.';
+    path.textContent = 'Downloads/' + session.studentId + '_1.jpg … _' + count + '.jpg';
+    sub.textContent = 'Transfer these photos to the Input folder for enrollment processing.';
+    purge.style.display = 'none';
+    nextBtn.style.display = 'inline-block';
   }
   showScreen('saved');
+}
+
+// ── Next Student (enrollment flow — reset for new student) ─
+function nextStudent() {
+  photos = {};
+  activePose = '1';
+  // Go back to setup but keep all fields except student ID
+  showScreen('setup');
+  document.getElementById('f_student_id').value = '';
+  document.getElementById('f_student_id').focus();
 }
 
 // ── New session ────────────────────────────────────────────
